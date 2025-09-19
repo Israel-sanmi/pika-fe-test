@@ -226,13 +226,13 @@ export default function Home() {
             Jump on the Pika waitlist today and be the first to know when we
             launch!{" "}
           </p>
-          <div className="flex items-center ">
+          <div className="flex sm:flex-row flex-col sm:gap-0 gap-2 items-center w-full ">
             <input
-              className="rounded-tl-[10px] bg-transparent text-[#180A0A] px-4 py-2 font-poppins font-normal text-sm placeholder:text-[#180A0A] rounded-bl-[10px] border border-[#180A0A]"
+              className="sm:rounded-tl-[10px] sm:w-auto w-full ring-0 rounded-tl-0 bg-transparent text-[#180A0A] px-4 py-2 font-poppins font-normal text-sm placeholder:text-[#180A0A] sm:rounded-bl-[10px] rounded-bl-0 border-b sm:border border-[#180A0A]"
               type="text"
               placeholder="Enter your email address"
             />
-            <button className="bg-main text-white cursor-pointer rounded-tr-[10px] py-2 px-4 rounded-br-[10px] font-poppins font-normal text-sm border border-[#180A0A]">
+            <button className="bg-main sm:w-auto w-full text-white cursor-pointer sm:rounded-tr-[10px] py-2 px-4 sm:rounded-br-[10px] font-poppins font-normal text-sm sm:border border-[#180A0A]">
               Submit
             </button>
           </div>
