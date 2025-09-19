@@ -9,12 +9,19 @@ import arrow from "@/public/images/arrow.png";
 import rider from "@/public/images/rider.png";
 import bike from "@/public/images/bike.png";
 import key from "@/public/images/key.png";
+import { motion } from "framer-motion";
 
 export default function Home() {
   return (
     <div className="">
       {/* hero */}
-      <div
+      <motion.div
+        initial={{ y: 200, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{
+          duration: 0.8,
+          ease: "easeOut",
+        }}
         style={{
           backgroundImage: `url(${heroBg.src})`,
           backgroundRepeat: "no-repeat",
@@ -23,19 +30,40 @@ export default function Home() {
         }}
         className="bg-[#FADEEF61] w-full h-screen md:h-[130vh] relative overflow-hidden"
       >
-        <nav className="flex items-center justify-between px-5 sm:px-10 py-10 sm:py-5">
+        <motion.nav
+          initial={{ y: -100, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{
+            duration: 0.6,
+            ease: "easeOut",
+          }}
+          className="flex items-center justify-between px-5 sm:px-10 py-10 sm:py-5"
+        >
           <Image
             priority
             src={pikaLogo}
             alt="pika-logo"
             className="w-[84px] h-[29px]"
           />
-          <button className="text-[#E96A48] cursor-pointer font-semibold font-poppins text-sm border border-[#E96A48] rounded-[50px] p-2 hover:text-white transition-colors ease-in-out hover:bg-[#E96A48]">
-            Sign up
-          </button>
-        </nav>
+          <div className="flex gap-4">
+            <button className="text-[#E96A48] cursor-pointer font-semibold font-poppins text-sm">
+              Sign in
+            </button>
+            <button className="text-[#E96A48] cursor-pointer font-semibold font-poppins text-sm border border-[#E96A48] rounded-[50px] p-2 hover:text-white transition-colors ease-in-out hover:bg-[#E96A48]">
+              Sign up
+            </button>
+          </div>
+        </motion.nav>
 
-        <div className="mt-10 sm:mt-14 sm:px-0 px-3">
+        <motion.div
+          initial={{ y: 100, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{
+            duration: 0.7,
+            ease: "easeOut",
+          }}
+          className="mt-10 sm:mt-14 sm:px-0 px-3"
+        >
           <h1 className="sm:text-[56px] text-5xl font-poppins text-main text-center font-semibold">
             Your Bridge to Effortless Deliveries
           </h1>
@@ -50,8 +78,8 @@ export default function Home() {
               Sign-up now
             </button>
           </div>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
 
       {/* track */}
       <div className="bg-white w-full p-5 lg:p-28">
@@ -80,22 +108,52 @@ export default function Home() {
           })}
         </div>
 
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-10 md:gap-20 lg:gap-28 mt-10 sm:mt-24">
-          {/* Image */}
-          <Image
-            src={finger}
-            alt="smart-route"
-            priority
-            className="
-      w-full 
-      max-w-[552px] 
-      h-[200px] sm:h-[400px] lg:h-[688px] 
-      object-cover object-top 
-      rounded-[8px]
-    "
-          />
-
-          <div className="flex flex-col gap-4 sm:gap-6 min-w-[250px] max-w-[456px] px-4 sm:px-0 text-center sm:text-left">
+        <motion.div
+          className="flex flex-col sm:flex-row items-center justify-between gap-10 md:gap-20 lg:gap-28 mt-10 sm:mt-24"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
+          variants={{
+            hidden: {},
+            visible: {
+              transition: { staggerChildren: 0.3 },
+            },
+          }}
+        >
+          <motion.div
+            variants={{
+              hidden: { x: -150, opacity: 0 },
+              visible: {
+                x: 0,
+                opacity: 1,
+                transition: { duration: 0.8, ease: "easeOut" },
+              },
+            }}
+            className="w-full max-w-[552px]"
+          >
+            <Image
+              src={finger}
+              alt="smart-route"
+              priority
+              className="
+        w-full 
+        h-[200px] sm:h-[400px] lg:h-[688px] 
+        object-cover object-top 
+        rounded-[8px]
+      "
+            />
+          </motion.div>
+          <motion.div
+            variants={{
+              hidden: { x: 150, opacity: 0 },
+              visible: {
+                x: 0,
+                opacity: 1,
+                transition: { duration: 0.8, ease: "easeOut" },
+              },
+            }}
+            className="flex flex-col gap-4 sm:gap-6 min-w-[250px] max-w-[456px] px-4 sm:px-0 text-center sm:text-left"
+          >
             <h1 className="font-inter font-medium text-2xl sm:text-3xl lg:text-4xl text-[#474445]">
               Track your delivery in real-time
             </h1>
@@ -103,8 +161,8 @@ export default function Home() {
               Track your package, guaranteeing peace of mind at every step of
               its journey.
             </p>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </div>
 
       {/* how */}
@@ -114,7 +172,15 @@ export default function Home() {
         </h1>
         <Image alt="arrow" src={arrow} className="mx-auto hidden md:block" />
         <div className="text-white flex md:flex-row flex-col items-center md:items-start gap-5 md:gap-0 justify-between mt-2 ">
-          <div className="text-center max-w-full border md:border-white rounded-[20px] md:border-0 p-3 md:p-0 md:max-w-[319px] ">
+          <motion.div
+            initial={{ y: 200, opacity: 0 }}
+            whileInView={{ y: 0, opacity: 1 }}
+            transition={{
+              duration: 0.8,
+              ease: "easeOut",
+            }}
+            className="text-center max-w-full border md:border-white rounded-[20px] md:border-0 p-3 md:p-0 md:max-w-[319px] "
+          >
             <h3 className="font-poppins text-lg font-medium">
               Select Delivery Type
             </h3>
@@ -123,8 +189,16 @@ export default function Home() {
               the type of delivery that suits your needs, whether it’s same day
               delivery or interstate delivery
             </p>
-          </div>
-          <div className="text-center max-w-full border md:border-white rounded-[20px] md:border-0 p-3 md:p-0 md:max-w-[319px] ">
+          </motion.div>
+          <motion.div
+            initial={{ y: 200, opacity: 0 }}
+            whileInView={{ y: 0, opacity: 1 }}
+            transition={{
+              duration: 0.9,
+              ease: "easeOut",
+            }}
+            className="text-center max-w-full border md:border-white rounded-[20px] md:border-0 p-3 md:p-0 md:max-w-[319px] "
+          >
             <h3 className="font-poppins text-lg font-medium">
               Select Your Address{" "}
             </h3>
@@ -134,8 +208,16 @@ export default function Home() {
               you can save your frequently used addresses for even quicker
               ordering next time!
             </p>
-          </div>
-          <div className="text-center max-w-full border md:border-white rounded-[20px] md:border-0 p-3 md:p-0 md:max-w-[319px] ">
+          </motion.div>
+          <motion.div
+            initial={{ y: 200, opacity: 0 }}
+            whileInView={{ y: 0, opacity: 1 }}
+            transition={{
+              duration: 1.1,
+              ease: "easeOut",
+            }}
+            className="text-center max-w-full border md:border-white rounded-[20px] md:border-0 p-3 md:p-0 md:max-w-[319px] "
+          >
             <h3 className="font-poppins text-lg font-medium">
               Tailor your shipment
             </h3>
@@ -144,14 +226,20 @@ export default function Home() {
               date and time effortlessly and stay updated at every step. Say
               goodbye to stress with Pika's effortless scheduling.
             </p>
-          </div>
+          </motion.div>
         </div>
       </div>
 
       {/* earn */}
       <div className="bg-white w-full px-5 py-5 md:py-14 sm:px-10 lg:p-28">
         <div className="flex flex-col-reverse md:flex-row items-center justify-between gap-10 md:gap-28 mt-10 md:mt-24">
-          <div className="flex flex-col min-w-[250px] gap-4 max-w-[456px] text-left">
+          <motion.div
+            initial={{ x: -100, opacity: 0 }}
+            whileInView={{ x: 0, opacity: 1 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            viewport={{ once: true, amount: 0.3 }}
+            className="flex flex-col min-w-[250px] gap-4 max-w-[456px] text-left"
+          >
             <h1 className="font-inter font-bold sm:font-medium text-xl sm:text-3xl md:text-4xl text-[#474445]">
               Earn As A Pika Rider
             </h1>
@@ -165,14 +253,20 @@ export default function Home() {
             <button className="border mt-5 text-[#180A0A] border-black w-full sm:w-auto bg-white font-inter font-semibold text-base sm:text-lg cursor-pointer rounded-[30px] px-6 py-3 hover:text-white hover:bg-black transition-colors ease-in-out">
               Sign up now
             </button>
-          </div>
-
-          <Image
-            src={rider}
-            alt="rider-route"
-            priority
-            className="w-full max-w-[552px] h-[175px] sm:h-[400px] lg:h-[688px] object-cover object-top rounded-[8px]"
-          />
+          </motion.div>
+          <motion.div
+            initial={{ x: 100, opacity: 0 }}
+            whileInView={{ x: 0, opacity: 1 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            viewport={{ once: true, amount: 0.3 }}
+          >
+            <Image
+              src={rider}
+              alt="rider-route"
+              priority
+              className="w-full max-w-[552px] h-[175px] sm:h-[400px] lg:h-[688px] object-cover object-top rounded-[8px]"
+            />
+          </motion.div>
         </div>
       </div>
 
@@ -196,6 +290,7 @@ export default function Home() {
           </p>
         </div>
       </div>
+
       <div className="sm:hidden block p-5 text-center">
         <p className="font-inter text-[#180A0A] text-base font-medium">
           Moving Packages, saving the planet
@@ -216,9 +311,15 @@ export default function Home() {
           backgroundPosition: "bottom",
           backgroundSize: "cover",
         }}
-        className="lg:h-screen h-[60vh] sm:py-0 py-5 w-full relative"
+        className="lg:h-[70vh] object-bottom h-[60vh] sm:py-0 py-5 w-full relative"
       >
-        <div className="sm:max-w-[537px] max-w-full flex sm:block flex-col items-center justify-center sm:absolute top-14 left-24">
+        <motion.div
+          initial={{ y: -50, opacity: 0 }}
+          whileInView={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          viewport={{ once: true, amount: 0.3 }}
+          className="sm:max-w-[537px] max-w-full flex sm:block flex-col items-center justify-center sm:absolute top-14 left-24"
+        >
           <h1 className="font-inter font-bold text-xl sm:text-3xl text-center sm:text-left text-[#180A0A]">
             Safeguard your business logistics
           </h1>
@@ -236,7 +337,7 @@ export default function Home() {
               Submit
             </button>
           </div>
-        </div>
+        </motion.div>
       </div>
 
       {/* footer */}
