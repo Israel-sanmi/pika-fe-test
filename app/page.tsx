@@ -10,10 +10,13 @@ import rider from "@/public/images/rider.png";
 import bike from "@/public/images/bike.png";
 import key from "@/public/images/key.png";
 import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+  const router = useRouter();
+
   return (
-    <div className="">
+    <div className="overflow-x-hidden">
       {/* hero */}
       <motion.div
         initial={{ y: 200, opacity: 0 }}
@@ -46,10 +49,16 @@ export default function Home() {
             className="w-[84px] h-[29px]"
           />
           <div className="flex gap-4">
-            <button className="text-[#E96A48] cursor-pointer font-semibold font-poppins text-sm">
+            <button
+              onClick={() => router.push("/login")}
+              className="text-[#E96A48] cursor-pointer font-semibold font-poppins text-sm"
+            >
               Sign in
             </button>
-            <button className="text-[#E96A48] cursor-pointer font-semibold font-poppins text-sm border border-[#E96A48] rounded-[50px] p-2 hover:text-white transition-colors ease-in-out hover:bg-[#E96A48]">
+            <button
+              onClick={() => router.push("/sign-up")}
+              className="text-[#E96A48] cursor-pointer font-semibold font-poppins text-sm border border-[#E96A48] rounded-[50px] p-2 hover:text-white transition-colors ease-in-out hover:bg-[#E96A48]"
+            >
               Sign up
             </button>
           </div>
@@ -74,7 +83,10 @@ export default function Home() {
             <p className="text-[#050505] font-medium font-poppins sm:font-inter cursor-pointer text-xs sm:text-sm">
               Earn as a rider!
             </p>
-            <button className="bg-[#050505] rounded-[20px] font-poppins sm:font-inter text-white text-sm py-3 px-8 cursor-pointer font-normal hover:bg-black/10 hover:text-black transition-colors ease-in-out ">
+            <button
+              onClick={() => router.push("/sign-up")}
+              className="bg-[#050505] rounded-[20px] font-poppins sm:font-inter text-white text-sm py-3 px-8 cursor-pointer font-normal hover:bg-black/10 hover:text-black transition-colors ease-in-out "
+            >
               Sign-up now
             </button>
           </div>
@@ -250,7 +262,10 @@ export default function Home() {
               There's no requirement to go to an office or have a boss to report
               to anymore.
             </p>
-            <button className="border mt-5 text-[#180A0A] border-black w-full sm:w-auto bg-white font-inter font-semibold text-base sm:text-lg cursor-pointer rounded-[30px] px-6 py-3 hover:text-white hover:bg-black transition-colors ease-in-out">
+            <button
+              onClick={() => router.push("/sign-up")}
+              className="border mt-5 text-[#180A0A] border-black w-full sm:w-auto bg-white font-inter font-semibold text-base sm:text-lg cursor-pointer rounded-[30px] px-6 py-3 hover:text-white hover:bg-black transition-colors ease-in-out"
+            >
               Sign up now
             </button>
           </motion.div>
@@ -318,7 +333,7 @@ export default function Home() {
           whileInView={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
           viewport={{ once: true, amount: 0.3 }}
-          className="sm:max-w-[537px] max-w-full flex sm:block flex-col items-center justify-center sm:absolute top-14 left-24"
+          className="sm:max-w-[537px] max-w-full flex sm:block flex-col items-center justify-center sm:absolute p-5 sm:p-0 top-14 left-24"
         >
           <h1 className="font-inter font-bold text-xl sm:text-3xl text-center sm:text-left text-[#180A0A]">
             Safeguard your business logistics
@@ -329,7 +344,7 @@ export default function Home() {
           </p>
           <div className="flex sm:flex-row flex-col sm:gap-0 gap-2 items-center w-full ">
             <input
-              className="sm:rounded-tl-[10px] sm:w-auto w-full ring-0 rounded-tl-0 bg-transparent text-[#180A0A] px-4 py-2 font-poppins font-normal text-sm placeholder:text-[#180A0A] sm:rounded-bl-[10px] rounded-bl-0 border-b sm:border border-[#180A0A]"
+              className="sm:rounded-tl-[10px] sm:w-auto w-full ring-0 rounded-tl-0 bg-white text-[#180A0A] px-4 py-2 font-poppins font-normal text-sm placeholder:text-[#180A0A] sm:rounded-bl-[10px] rounded-bl-0 sm:border border-[#180A0A]"
               type="text"
               placeholder="Enter your email address"
             />
