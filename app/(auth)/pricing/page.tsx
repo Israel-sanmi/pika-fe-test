@@ -60,7 +60,7 @@ const PricingPage = () => {
       </motion.div>
 
       <div className="px-5 flex md:flex-row flex-col md:gap-0 gap-2 items-center sm:px-10 my-10">
-        <div className="border border-[#6C696A] flex flex-col gap-5 w-full rounded-[20px] md:rounded-tl-[20px]  md:rounded-bl-[20px] bg-[#fadeefb5] p-5">
+        <div className="border border-[#6C696A] flex flex-col gap-5 w-full bg-[#fadeefb5] p-5 rounded-[20px] md:rounded-none md:rounded-tl-[20px] md:rounded-bl-[20px] ">
           <div className="flex flex-col gap-1.5">
             <h4 className="font-poppins font-medium text-xl text-[#110F10]">
               Free
@@ -132,7 +132,7 @@ const PricingPage = () => {
             Get started
           </button>
         </div>
-        <div className="border border-[#6C696A] flex flex-col gap-5 w-full rounded-[20px] md:rounded-tr-[20px]  md:rounded-br-[20px] bg-[#fadeefb5] p-5">
+        <div className="border border-[#6C696A] flex flex-col gap-5 w-full bg-[#fadeefb5] p-5 rounded-[20px] md:rounded-none md:rounded-tr-[20px] md:rounded-br-[20px]">
           <div className="flex flex-col gap-1.5">
             <h4 className="font-poppins font-medium text-xl text-[#110F10]">
               Retail
