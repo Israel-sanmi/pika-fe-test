@@ -37,7 +37,9 @@ const AuthScreen = ({
         />
         <h2 className="font-poppins font-semibold text-2xl">{titleText}</h2>
         {subtitleText && <p className="text-gray-600">{subtitleText}</p>}
-        {children}
+        {/* <div className="h-[65vh] overflow-y-scroll scrollbar-hide"> */}
+          {children}
+        {/* </div> */}
       </div>
     </div>
   );

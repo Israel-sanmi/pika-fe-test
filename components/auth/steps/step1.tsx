@@ -1,5 +1,6 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -12,33 +13,29 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { IoCheckmarkCircle } from "react-icons/io5";
-import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 import { useRouter } from "next/navigation";
-import { useSignUp } from "@/hooks/sign-up/useSignUp";
+import { IoCheckmarkCircle } from "react-icons/io5";
 
 const formSchema = z.object({
-  email: z
+  businessName: z.string().min(1, "Input business name"),
+  businessAddress: z.string().min(1, "Input Input business address"),
+  phone: z
     .string()
-    .min(1, "Email is required")
-    .regex(/\S+@\S+\.\S+/, "Invalid email address"),
-  password: z.string().min(8, "Password must be at least 8 characters"),
-  phone: z.string().regex(/^\d{10,11}$/, {
-    message: "Phone number must be between 10 and 11 digits",
-  }),
-  fullname: z.string().min(1, "Full name is required"),
+    .regex(/^\d{10,11}$/, {
+      message: "Phone number must be between 10 and 11 digits",
+    })
+    .optional(),
 });
 
-const BusinessForm = () => {
+const StepOne = ({ setSteps }: any) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     mode: "onChange",
     reValidateMode: "onChange",
     defaultValues: {
-      email: "",
-      password: "",
+      businessName: "",
+      businessAddress: "",
       phone: "",
-      fullname: "",
     },
   });
 
@@ -51,40 +48,32 @@ const BusinessForm = () => {
 
   const router = useRouter();
 
-  const emailVal = watch("email") || "";
-  const passwordVal = watch("password") || "";
-  const fullnameVal = watch("fullname") || "";
   const phoneVal = watch("phone") || "";
-
-  const fullnameCheck = fullnameVal !== "" && !errors.fullname;
-  const checkPassword = passwordVal !== "" && !errors.password;
-  const emailCheck = emailVal !== "" && !errors.email;
   const phoneNumberCheck = phoneVal !== "" && !errors.phone;
 
-  const [showPassword, setShowPassword] = useState(false);
-
-  const { handleSignUp } = useSignUp();
+  const businessNameCheck = watch("businessName") || "";
+  const businessAddressCheck = watch("businessAddress") || "";
 
   return (
-    <div className="h-[60vh] overflow-y-scroll scrollbar-hide">
+    <div>
       <Form {...form}>
         <form
-          className="space-y-2" 
-           onSubmit={form.handleSubmit(handleSignUp)}
+          className="space-y-4"
+          //   onSubmit={form.handleSubmit(handleSignUp)}
         >
           <FormField
             control={control}
-            name="fullname"
+            name="businessName"
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="font-inter font-normal text-[#110F10] text-sm">
-                  Full name
+                  Business Name<span className="text-main">*</span>
                 </FormLabel>
                 <FormControl>
                   <div className="relative">
                     <Input
                       className={`font-inter font-normal rounded-sm py-3 text-sm border-[0.4px] ${
-                        fullnameCheck ? "border-main" : "border-[#6C696A]"
+                        businessNameCheck ? "border-main" : "border-[#6C696A]"
                       } placeholder:text-[#6C696A]`}
                       placeholder="John Doe"
                       type="text"
@@ -93,7 +82,7 @@ const BusinessForm = () => {
                     <IoCheckmarkCircle
                       size={20}
                       className={`${
-                        fullnameCheck ? "text-main" : "text-[#B5B4B4]"
+                        businessNameCheck ? "text-main" : "text-[#B5B4B4]"
                       } absolute right-2 top-2`}
                     />
                   </div>
@@ -102,29 +91,30 @@ const BusinessForm = () => {
               </FormItem>
             )}
           />
-
           <FormField
             control={control}
-            name="email"
+            name="businessAddress"
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="font-inter font-normal text-[#110F10] text-sm">
-                  Email
+                  Business Address<span className="text-main">*</span>
                 </FormLabel>
                 <FormControl>
                   <div className="relative">
                     <Input
                       className={`font-inter font-normal rounded-sm py-3 text-sm border-[0.4px] ${
-                        emailCheck ? "border-main" : "border-[#6C696A]"
+                        businessAddressCheck
+                          ? "border-main"
+                          : "border-[#6C696A]"
                       } placeholder:text-[#6C696A]`}
-                      placeholder="example@gmail.com"
-                      type="email"
+                      placeholder="Enter business address"
+                      type="text"
                       {...field}
                     />
                     <IoCheckmarkCircle
                       size={20}
                       className={`${
-                        emailCheck ? "text-main" : "text-[#B5B4B4]"
+                        businessAddressCheck ? "text-main" : "text-[#B5B4B4]"
                       } absolute right-2 top-2`}
                     />
                   </div>
@@ -133,14 +123,13 @@ const BusinessForm = () => {
               </FormItem>
             )}
           />
-
           <FormField
             control={control}
             name="phone"
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="font-inter font-normal text-[#110F10] text-sm">
-                  Phone number
+                  Alternate Phone number
                 </FormLabel>
                 <FormControl>
                   <div className="relative">
@@ -168,74 +157,19 @@ const BusinessForm = () => {
               </FormItem>
             )}
           />
-
-          <FormField
-            control={control}
-            name="password"
-            render={({ field }) => (
-              <FormItem className="pb-3">
-                <FormLabel className="font-inter font-normal text-[#110F10] text-sm">
-                  Password
-                </FormLabel>
-                <FormControl>
-                  <div className="relative">
-                    <Input
-                      className={`font-inter font-normal rounded-sm py-3 text-sm border-[0.4px] ${
-                        checkPassword ? "border-main" : "border-[#6C696A]"
-                      } placeholder:text-[#6C696A]`}
-                      placeholder="Enter your password"
-                      type={showPassword ? "text" : "password"}
-                      {...field}
-                    />
-                    <div className=" absolute flex items-center gap-2 right-2 top-2">
-                      {showPassword ? (
-                        <IoMdEye
-                          size={20}
-                          onClick={() => setShowPassword((prev) => !prev)}
-                        />
-                      ) : (
-                        <IoMdEyeOff
-                          size={20}
-                          onClick={() => setShowPassword((prev) => !prev)}
-                        />
-                      )}
-
-                      <IoCheckmarkCircle
-                        size={20}
-                        className={`${
-                          checkPassword ? "text-main" : "text-[#B5B4B4]"
-                        }`}
-                      />
-                    </div>
-                  </div>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
           <button
             disabled={!isValid}
+            onClick={() => setSteps((prev: number) => prev + 1)}
             className={`${
               isValid ? "bg-main" : "bg-inactive pointer-events-none"
-            } w-full text-white py-2 text-sm cursor-pointer font-inter font-semibold rounded-2xl`}
+            } w-full text-white py-2 mt-5 text-sm cursor-pointer font-inter font-semibold rounded-2xl`}
           >
-            Create Account
+            Continue
           </button>
-
-          <div className="font-poppins text-center text-sm ">
-            Already have an account?{" "}
-            <span
-              className="text-main cursor-pointer"
-              onClick={() => router.push("/login")}
-            >
-              Log In
-            </span>{" "}
-          </div>
         </form>
       </Form>
     </div>
   );
 };
 
-export default BusinessForm;
+export default StepOne;

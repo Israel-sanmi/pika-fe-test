@@ -33,6 +33,8 @@ const formSchema = z.object({
 const Login = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
+    mode: "onChange",
+    reValidateMode: "onChange",
     defaultValues: {
       email: "",
       password: "",
@@ -40,10 +42,20 @@ const Login = () => {
   });
 
   const router = useRouter();
-  const checkEmail =
-    !form.formState.errors.email && form.getValues("email") !== "";
-  const checkPassword =
-    !form.formState.errors.password && form.getValues("password") !== "";
+
+  const {
+    control,
+    watch,
+    handleSubmit,
+    formState: { errors, isValid },
+  } = form;
+
+  const emailVal = watch("email") || "";
+  const passwordVal = watch("password") || "";
+
+  const checkEmail = emailVal !== "" && !errors.email;
+  const checkPassword = passwordVal !== "" && !errors.password;
+
   const [showPassword, setShowPassword] = useState(false);
 
   return (
@@ -137,7 +149,7 @@ const Login = () => {
             <button
               className={`${
                 checkEmail && checkPassword ? "bg-main" : "bg-inactive"
-              } w-full text-white py-2 cursor-pointer font-inter font-semibold rounded-2xl`}
+              } w-full text-white text-sm py-2 cursor-pointer font-inter font-semibold rounded-2xl`}
             >
               Log in
             </button>
