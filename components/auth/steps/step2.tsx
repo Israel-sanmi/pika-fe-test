@@ -13,6 +13,16 @@ import {
 } from "@/components/ui/form";
 import { useRouter } from "next/navigation";
 import { MdOutlineFileUpload } from "react-icons/md";
+import { useBusinessStore } from "@/store/businessProfileStore";
+import { IoCheckmarkCircle } from "react-icons/io5";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const formSchema = z.object({
   businessDoc: z.custom<FileList>(
@@ -21,15 +31,19 @@ const formSchema = z.object({
       message: "Upload CAC Document",
     }
   ),
-  KYC: z.custom<FileList>((val) => val instanceof FileList && val.length > 0, {
-    message: "Upload NIN, International Passport, Utility bill",
-  }),
-  BVN: z
-    .custom<FileList | undefined>(
-      (val) => !val || (val instanceof FileList && val.length > 0),
-      { message: "Upload BVN Document" }
-    )
-    .optional(),
+  about: z.string().min(1, "Input business description"),
+  businessType: z.string().min(1, "Select a business type"),
+  esthablishedYear: z.string().min(4, "Select the start year"),
+
+  // KYC: z.custom<FileList>((val) => val instanceof FileList && val.length > 0, {
+  //   message: "Upload NIN, International Passport, Utility bill",
+  // }),
+  // BVN: z
+  //   .custom<FileList | undefined>(
+  //     (val) => !val || (val instanceof FileList && val.length > 0),
+  //     { message: "Upload BVN Document" }
+  //   )
+  //   .optional(),
 });
 
 const StepTwo = ({ setSteps }: any) => {
@@ -39,8 +53,11 @@ const StepTwo = ({ setSteps }: any) => {
     reValidateMode: "onChange",
     defaultValues: {
       businessDoc: undefined,
-      KYC: undefined,
-      BVN: undefined,
+      about: "",
+      businessType: "",
+      esthablishedYear: "",
+      // KYC: undefined,
+      // BVN: undefined,
     },
   });
 
@@ -48,8 +65,22 @@ const StepTwo = ({ setSteps }: any) => {
   const router = useRouter();
 
   const businessDoc = watch("businessDoc") as FileList | undefined;
-  const KYC = watch("KYC") as FileList | undefined;
-  const BVN = watch("BVN") as FileList | undefined;
+  const aboutCheck = watch("about") || "";
+  const esthablishedYearCheck = watch("esthablishedYear") || "";
+  // const KYC = watch("KYC") as FileList | undefined;
+  // const BVN = watch("BVN") as FileList | undefined;
+
+  const currentYear = new Date().getFullYear();
+  const years = Array.from({ length: currentYear - 1950 + 1 }, (_, i) =>
+    String(currentYear - i)
+  );
+  const businessTypeList = ["retail", "wholesale", "hospitality"];
+
+  const updateData = useBusinessStore((state) => state.updateData);
+  const onSubmit = (values: any) => {
+    updateData(values);
+    setSteps(3);
+  };
 
   const FileUpload = ({
     field,
@@ -100,7 +131,7 @@ const StepTwo = ({ setSteps }: any) => {
 
   return (
     <Form {...form}>
-      <form className="space-y-4">
+      <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
         <FormField
           control={control}
           name="businessDoc"
@@ -114,7 +145,7 @@ const StepTwo = ({ setSteps }: any) => {
           )}
         />
 
-        <FormField
+        {/* <FormField
           control={control}
           name="KYC"
           render={({ field }) => (
@@ -143,13 +174,121 @@ const StepTwo = ({ setSteps }: any) => {
               value={BVN}
             />
           )}
+        /> */}
+
+        <FormField
+          control={control}
+          name="businessType"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="font-inter font-normal text-[#110F10] text-sm">
+                Business Type<span className="text-main">*</span>
+              </FormLabel>
+              <FormControl>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <SelectTrigger
+                    className={`font-inter font-normal capitalize w-full rounded-sm py-3 text-sm border-[0.4px] ${
+                      field.value ? "border-main" : "border-[#6C696A]"
+                    }`}
+                  >
+                    <SelectValue placeholder="Select a business type" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {businessTypeList.map((businessT) => (
+                      <SelectItem
+                        className="font-inter capitalize"
+                        key={businessT}
+                        value={businessT}
+                      >
+                        {businessT}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={control}
+          name="about"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="font-inter font-normal text-[#110F10] text-sm">
+                Business Description<span className="text-main">*</span>
+              </FormLabel>
+              <FormControl>
+                <div className="relative">
+                  <Textarea
+                    className={`font-inter font-normal rounded-sm py-3 text-sm border-[0.4px] ${
+                      aboutCheck ? "border-main" : "border-[#6C696A]"
+                    } placeholder:text-[#6C696A]`}
+                    placeholder="Enter business description"
+                    {...field}
+                  />
+                  <IoCheckmarkCircle
+                    size={20}
+                    className={`${
+                      aboutCheck ? "text-main" : "text-[#B5B4B4]"
+                    } absolute right-2 top-2`}
+                  />
+                </div>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={control}
+          name="esthablishedYear"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="font-inter font-normal text-[#110F10] text-sm">
+                Select a start year<span className="text-main">*</span>
+              </FormLabel>
+              <FormControl>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <SelectTrigger
+                    className={`font-inter font-normal w-full rounded-sm py-3 text-sm border-[0.4px] ${
+                      field.value ? "border-main" : "border-[#6C696A]"
+                    }`}
+                  >
+                    <SelectValue placeholder="Choose year" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {years.map((year) => (
+                      <SelectItem
+                        className="font-inter"
+                        key={year}
+                        value={year}
+                      >
+                        {year}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
         />
 
         <button
-          disabled={!businessDoc || !KYC}
-          onClick={() => setSteps((prev: number) => prev + 1)}
+          // disabled={!businessDoc || !KYC}
+          disabled={!businessDoc || !aboutCheck || !esthablishedYearCheck}
+          // onClick={() => setSteps((prev: number) => prev + 1)}
           className={`${
-            businessDoc && KYC ? "bg-main" : "bg-inactive pointer-events-none"
+            businessDoc && aboutCheck && esthablishedYearCheck
+              ? "bg-main"
+              : "bg-inactive pointer-events-none"
           } w-full text-white py-2 mt-5 text-sm cursor-pointer font-inter font-semibold rounded-2xl`}
         >
           Continue

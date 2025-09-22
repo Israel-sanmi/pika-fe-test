@@ -7,8 +7,10 @@ import { FaCircleCheck } from "react-icons/fa6";
 
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
 
 const PricingPage = () => {
+  const router = useRouter();
   return (
     <motion.div
       initial={{ y: 200, opacity: 0 }}
@@ -33,6 +35,7 @@ const PricingPage = () => {
           ease: "easeOut",
         }}
         className="flex items-center justify-between px-5 sm:px-10 py-10 sm:py-5"
+        onClick={() => router.push("/")}
       >
         <Image
           priority
@@ -128,8 +131,8 @@ const PricingPage = () => {
               })}
             </div>
           </div>
-          <button className="bg-white text-black flex-none rounded-[16px] p-3.5 font-poppins cursor-pointer">
-            Get started
+          <button className="bg-white text-black flex-none rounded-[16px] p-3.5 font-poppins cursor-not-allowed">
+            Coming soon
           </button>
         </div>
         <div className="border border-[#6C696A] flex flex-col gap-5 w-full bg-[#fadeefb5] p-5 rounded-[20px] md:rounded-none md:rounded-tr-[20px] md:rounded-br-[20px]">

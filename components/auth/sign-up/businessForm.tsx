@@ -16,6 +16,7 @@ import { IoCheckmarkCircle } from "react-icons/io5";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 import { useRouter } from "next/navigation";
 import { useSignUp } from "@/hooks/sign-up/useSignUp";
+import { RiLoader3Fill } from "react-icons/ri";
 
 const formSchema = z.object({
   email: z
@@ -26,7 +27,7 @@ const formSchema = z.object({
   phone: z.string().regex(/^\d{10,11}$/, {
     message: "Phone number must be between 10 and 11 digits",
   }),
-  fullname: z.string().min(1, "Full name is required"),
+  fullName: z.string().min(1, "Full name is required"),
 });
 
 const BusinessForm = () => {
@@ -38,7 +39,7 @@ const BusinessForm = () => {
       email: "",
       password: "",
       phone: "",
-      fullname: "",
+      fullName: "",
     },
   });
 
@@ -53,28 +54,25 @@ const BusinessForm = () => {
 
   const emailVal = watch("email") || "";
   const passwordVal = watch("password") || "";
-  const fullnameVal = watch("fullname") || "";
+  const fullNameVal = watch("fullName") || "";
   const phoneVal = watch("phone") || "";
 
-  const fullnameCheck = fullnameVal !== "" && !errors.fullname;
+  const fullNameCheck = fullNameVal !== "" && !errors.fullName;
   const checkPassword = passwordVal !== "" && !errors.password;
   const emailCheck = emailVal !== "" && !errors.email;
   const phoneNumberCheck = phoneVal !== "" && !errors.phone;
 
   const [showPassword, setShowPassword] = useState(false);
 
-  const { handleSignUp } = useSignUp();
+  const { handleSignUp, signupMutation } = useSignUp();
 
   return (
     <div className="h-[60vh] overflow-y-scroll scrollbar-hide">
       <Form {...form}>
-        <form
-          className="space-y-2" 
-           onSubmit={form.handleSubmit(handleSignUp)}
-        >
+        <form className="space-y-2" onSubmit={form.handleSubmit(handleSignUp)}>
           <FormField
             control={control}
-            name="fullname"
+            name="fullName"
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="font-inter font-normal text-[#110F10] text-sm">
@@ -84,7 +82,7 @@ const BusinessForm = () => {
                   <div className="relative">
                     <Input
                       className={`font-inter font-normal rounded-sm py-3 text-sm border-[0.4px] ${
-                        fullnameCheck ? "border-main" : "border-[#6C696A]"
+                        fullNameCheck ? "border-main" : "border-[#6C696A]"
                       } placeholder:text-[#6C696A]`}
                       placeholder="John Doe"
                       type="text"
@@ -93,7 +91,7 @@ const BusinessForm = () => {
                     <IoCheckmarkCircle
                       size={20}
                       className={`${
-                        fullnameCheck ? "text-main" : "text-[#B5B4B4]"
+                        fullNameCheck ? "text-main" : "text-[#B5B4B4]"
                       } absolute right-2 top-2`}
                     />
                   </div>
@@ -215,12 +213,16 @@ const BusinessForm = () => {
           />
 
           <button
-            disabled={!isValid}
+            disabled={!isValid || signupMutation.isPending}
             className={`${
               isValid ? "bg-main" : "bg-inactive pointer-events-none"
-            } w-full text-white py-2 text-sm cursor-pointer font-inter font-semibold rounded-2xl`}
+            } w-full text-white py-2 text-sm cursor-pointer flex justify-center items-center font-inter font-semibold rounded-2xl`}
           >
-            Create Account
+            {signupMutation.isPending ? (
+              <RiLoader3Fill className="animate-spin" size={20} />
+            ) : (
+              "Create Account"
+            )}
           </button>
 
           <div className="font-poppins text-center text-sm ">

@@ -15,6 +15,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 import { IoCheckmarkCircle } from "react-icons/io5";
+import { useBusinessStore } from "@/store/businessProfileStore";
 
 const formSchema = z.object({
   businessName: z.string().min(1, "Input business name"),
@@ -25,6 +26,7 @@ const formSchema = z.object({
       message: "Phone number must be between 10 and 11 digits",
     })
     .optional(),
+  website: z.string().min(1, "Add website link").optional(),
 });
 
 const StepOne = ({ setSteps }: any) => {
@@ -36,6 +38,7 @@ const StepOne = ({ setSteps }: any) => {
       businessName: "",
       businessAddress: "",
       phone: "",
+      website: "",
     },
   });
 
@@ -53,14 +56,19 @@ const StepOne = ({ setSteps }: any) => {
 
   const businessNameCheck = watch("businessName") || "";
   const businessAddressCheck = watch("businessAddress") || "";
+  const websiteCheck = watch("website") || "";
+
+  const updateData = useBusinessStore((state) => state.updateData);
+
+  const onSubmit = (values: z.infer<typeof formSchema>) => {
+    updateData(values);
+    setSteps(2);
+  };
 
   return (
     <div>
       <Form {...form}>
-        <form
-          className="space-y-4"
-          //   onSubmit={form.handleSubmit(handleSignUp)}
-        >
+        <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
           <FormField
             control={control}
             name="businessName"
@@ -157,12 +165,41 @@ const StepOne = ({ setSteps }: any) => {
               </FormItem>
             )}
           />
+          <FormField
+            control={control}
+            name="website"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="font-inter font-normal text-[#110F10] text-sm">
+                  Website Link
+                </FormLabel>
+                <FormControl>
+                  <div className="relative">
+                    <Input
+                      className={`font-inter font-normal rounded-sm py-3 text-sm border-[0.4px] ${
+                        websiteCheck ? "border-main" : "border-[#6C696A]"
+                      } placeholder:text-[#6C696A]`}
+                      placeholder="Enter business website link"
+                      type="url"
+                      {...field}
+                    />
+                    <IoCheckmarkCircle
+                      size={20}
+                      className={`${
+                        websiteCheck ? "text-main" : "text-[#B5B4B4]"
+                      } absolute right-2 top-2`}
+                    />
+                  </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           <button
             disabled={!isValid}
-            onClick={() => setSteps((prev: number) => prev + 1)}
             className={`${
               isValid ? "bg-main" : "bg-inactive pointer-events-none"
-            } w-full text-white py-2 mt-5 text-sm cursor-pointer font-inter font-semibold rounded-2xl`}
+            } w-full text-white py-2 text-sm cursor-pointer font-inter font-semibold rounded-2xl`}
           >
             Continue
           </button>
