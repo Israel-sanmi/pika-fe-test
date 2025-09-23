@@ -6,7 +6,13 @@ export const apis = {
     register: `${baseUrl}auth/register`,
     refresh: `${baseUrl}refresh-token`,
     forgotPassword: `${baseUrl}forgot-password`,
-    businessProfile: `${baseUrl}update-business-profile`,
+    businessProfile: `${baseUrl}auth/update-business-profile`,
+
+    smsOtp: `${baseUrl}auth/send-sms-otp`,
+    emailOtp: `${baseUrl}auth/send-email-otp`,
+
+    verifySmsOtp: `${baseUrl}auth/verify-sms-otp`,
+    verifyEmailOtp: `${baseUrl}auth/verify-email-otp`,
   },
   users: {
     getProfile: `${baseUrl}users/profile`,

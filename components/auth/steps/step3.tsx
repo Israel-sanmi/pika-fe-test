@@ -16,8 +16,13 @@ import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 import { IoCheckmarkCircle } from "react-icons/io5";
 import { MdOutlineFileUpload } from "react-icons/md";
-import { useBusinessStore } from "@/store/businessProfileStore";
-import { useGeolocation } from "@/hooks/sign-up/geoLocation";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { useSignUp } from "@/hooks/sign-up/useSignUp";
 import { RiLoader3Fill } from "react-icons/ri";
 
@@ -26,7 +31,6 @@ const MAX_FILE_SIZE = 3 * 1024 * 1024;
 const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/jpg"];
 
 const formSchema = z.object({
-  // services: z.string().min(1, "Add services offered"),
   businessLogo: z
     .custom<FileList>((val) => val instanceof FileList && val.length > 0, {
       message: "Upload business logo",
@@ -55,6 +59,7 @@ const formSchema = z.object({
   businessPhone: z.string().regex(/^\d{10,11}$/, {
     message: "Phone number must be between 10 and 11 digits",
   }),
+  businessType: z.string().min(1, "Select a business type"),
 });
 
 const StepThree = ({ setSteps }: any) => {
@@ -66,7 +71,7 @@ const StepThree = ({ setSteps }: any) => {
       businessLogo: undefined,
       businessEmail: "",
       businessPhone: "",
-      // services: "",
+      businessType: "",
     },
   });
 
@@ -79,13 +84,14 @@ const StepThree = ({ setSteps }: any) => {
 
   const router = useRouter();
 
-  // const servicesCheck = watch("services") || "";
   const businessLogoCheck = watch("businessLogo") as FileList | undefined;
   const emailVal = watch("businessEmail") || "";
   const phoneVal = watch("businessPhone") || "";
 
   const emailCheck = emailVal !== "" && !errors.businessEmail;
   const phoneNumberCheck = phoneVal !== "" && !errors.businessPhone;
+
+  const businessTypeList = ["retail", "wholesale", "hospitality"];
 
   const { businessProfileSetup } = useSignUp();
 
@@ -98,44 +104,6 @@ const StepThree = ({ setSteps }: any) => {
             businessProfileSetup.mutate(values)
           )}
         >
-          {/* <FormField
-            control={control}
-            name="services"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="font-inter font-normal text-[#110F10] text-sm">
-                  Services Offered<span className="text-main">*</span>
-                </FormLabel>
-                <FormControl>
-                  <div className="relative">
-                    <Input
-                      className={`font-inter font-normal rounded-sm py-3 text-sm border-[0.4px] ${
-                        servicesCheck && !errors.services
-                          ? "border-main"
-                          : "border-[#6C696A]"
-                      } placeholder:text-[#6C696A]`}
-                      placeholder="Add services"
-                      type="text"
-                      {...field}
-                    />
-                    <IoCheckmarkCircle
-                      size={20}
-                      className={`absolute right-2 top-2 ${
-                        servicesCheck && !errors.services
-                          ? "text-main"
-                          : "text-[#B5B4B4]"
-                      }`}
-                    />
-                    <p className="text-xs italic font-poppins pt-1 font-normal text-[#918F8F]">
-                      Separate the services with comma
-                    </p>
-                  </div>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          /> */}
-
           <FormField
             control={control}
             name="businessLogo"
@@ -218,7 +186,6 @@ const StepThree = ({ setSteps }: any) => {
               </FormItem>
             )}
           />
-
           <FormField
             control={control}
             name="businessPhone"
@@ -254,6 +221,44 @@ const StepThree = ({ setSteps }: any) => {
             )}
           />
 
+          <FormField
+            control={control}
+            name="businessType"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="font-inter font-normal text-[#110F10] text-sm">
+                  Business Type<span className="text-main">*</span>
+                </FormLabel>
+                <FormControl>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <SelectTrigger
+                      className={`font-inter font-normal capitalize w-full rounded-sm py-3 text-sm border-[0.4px] ${
+                        field.value ? "border-main" : "border-[#6C696A]"
+                      }`}
+                    >
+                      <SelectValue placeholder="Select a business type" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {businessTypeList.map((businessT) => (
+                        <SelectItem
+                          className="font-inter capitalize"
+                          key={businessT}
+                          value={businessT}
+                        >
+                          {businessT}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
           <button
             disabled={!isValid || businessProfileSetup.isPending}
             className={`${
@@ -263,7 +268,7 @@ const StepThree = ({ setSteps }: any) => {
             {businessProfileSetup.isPending ? (
               <RiLoader3Fill className="animate-spin" size={20} />
             ) : (
-              "Continue"
+              "Complete Setup"
             )}
           </button>
         </form>

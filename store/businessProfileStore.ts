@@ -7,8 +7,10 @@ interface BusinessData {
   website?: string;
 
   businessDoc?: FileList;
-  //   KYC?: FileList;
+  KYC?: FileList;
   //   BVN?: FileList;
+  documentType?: string[];
+
   about?: string;
   businessType?: string;
   esthablishedYear?: string;
@@ -17,6 +19,7 @@ interface BusinessData {
   businessLogo?: FileList;
   businessEmail?: string;
   businessPhone?: string;
+  
 }
 
 interface BusinessStore {

@@ -40,6 +40,17 @@ const ProfileSteps = ({ steps, setSteps }: stepsI) => {
       >
         3
       </span>
+      <div className="h-0.5 bg-black w-full" />
+      <span
+        onClick={() => setSteps(4)}
+        className={`w-[24px] cursor-pointer flex-none h-[24px] rounded-full flex items-center justify-center font-bold font-inter ${
+          steps === 4
+            ? "text-white bg-black"
+            : "text-black border border-black bg-white"
+        }`}
+      >
+        4
+      </span>
     </div>
   );
 };

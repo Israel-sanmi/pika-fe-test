@@ -64,7 +64,7 @@ const BusinessForm = () => {
 
   const [showPassword, setShowPassword] = useState(false);
 
-  const { handleSignUp, signupMutation } = useSignUp();
+  const { handleSignUp, isSendingOtp } = useSignUp();
 
   return (
     <div className="h-[60vh] overflow-y-scroll scrollbar-hide">
@@ -213,15 +213,15 @@ const BusinessForm = () => {
           />
 
           <button
-            disabled={!isValid || signupMutation.isPending}
+            disabled={!isValid || isSendingOtp}
             className={`${
               isValid ? "bg-main" : "bg-inactive pointer-events-none"
             } w-full text-white py-2 text-sm cursor-pointer flex justify-center items-center font-inter font-semibold rounded-2xl`}
           >
-            {signupMutation.isPending ? (
+            {isSendingOtp ? (
               <RiLoader3Fill className="animate-spin" size={20} />
             ) : (
-              "Create Account"
+              "Next"
             )}
           </button>
 
