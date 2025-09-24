@@ -16,9 +16,14 @@ export const useLogin = () => {
     },
     onSuccess: (data) => {
       console.log("Signin successful:", data);
-      toast.success(`Welcome:, ${data.data.user.fullName}`);
-      Cookies.set("accessToken", data.data.tokens.accessToken);
-      Cookies.set("refreshToken", data.data.tokens.refreshToken);
+      toast.success(`Welcome: ${data.data.user.fullName}`);
+
+      // saved Cookies
+      Cookies.set("accessToken", data.data.tokens.accessToken, { secure: true });
+      Cookies.set("refreshToken", data.data.tokens.refreshToken, { secure: true });
+      Cookies.set("userID", data.data.tokens.uid);
+
+      router.push("/dashboard")
     },
     onError: (error: any) => {
       console.error("Signin failed:", error.response?.data || error.message);
@@ -40,11 +45,12 @@ export const useLogin = () => {
     mutationKey: ["sendResetEmail"],
     mutationFn: async (payload: { email: string }) => {
       const res = await axios.post(`${apis.auth.forgotPassword}`, payload);
+      Cookies.set("email", payload.email);
       return res.data;
     },
     onSuccess: (data) => {
       console.log("Password Reset:", data);
-      toast.success(`Password Reset successful:, ${data}`);
+      toast.success(`Password Reset successful: ${data.message}`);
       router.push("/login/forgot-password/password-reset");
     },
     onError: (error: any) => {
@@ -62,26 +68,37 @@ export const useLogin = () => {
 
   const sendResetPassword = useMutation({
     mutationKey: ["sendResetPassword"],
-    mutationFn: async (payload: { password: string }) => {
-      const res = await axios.post(`${apis.auth.forgotPassword}`, payload);
+    mutationFn: async (payload: { newPassword: string; otp: string }) => {
+      const email = Cookies.get("email");
+      const res = await axios.post(apis.auth.resetPassword, {
+        email,
+        otp: payload.otp,
+        newPassword: payload.newPassword,
+      });
       return res.data;
     },
     onSuccess: (data) => {
-      console.log("Password Change success:", data);
-      toast.success(`Password Change success:, ${data}`);
+      toast.success(`Password changed successfully 🎉`);
       router.replace("/login");
+      Cookies.remove("email");
     },
     onError: (error: any) => {
       console.error(
-        "Password Change error",
+        "Password Change error:",
         error.response?.data || error.message
       );
-      toast.error(`${error.response?.data.message || error.message}`);
+      toast.error(error.response?.data.message || error.message);
     },
   });
 
-  const handleSendResetPassword = ({ password }: { password: string }) => {
-    sendResetPassword.mutate({ password });
+  const handleSendResetPassword = ({
+    newPassword,
+    otp,
+  }: {
+    newPassword: string;
+    otp: string;
+  }) => {
+    sendResetPassword.mutate({ newPassword, otp });
   };
 
   return {

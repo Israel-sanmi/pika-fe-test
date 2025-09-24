@@ -17,10 +17,10 @@ const VerificationSuccess = () => {
           Account Verified!
         </h1>
         <button
-          onClick={() => router.push("/sign-up/verify-account/success/proceed")}
+          onClick={() => router.push("/login")}
           className="bg-main w-full text-white py-2  cursor-pointer font-inter font-semibold mt-5 text-sm rounded-2xl"
         >
-          Continue
+          Proceed to login
         </button>
       </div>
     </AuthScreen>

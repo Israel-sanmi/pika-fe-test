@@ -137,7 +137,6 @@
   }
 }
 
-/* SCROLLBAR REMOVE*/
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }

@@ -25,7 +25,15 @@ import { RiLoader3Fill } from "react-icons/ri";
 import { useLogin } from "../../useLogin";
 
 const formSchema = z.object({
-  password: z.string().min(8, "Password must be at least 8 characters"),
+  newPassword: z
+    .string()
+    .min(8, "Password must be at least 8 characters")
+    .regex(/[A-Z]/, "Password must contain at least one uppercase letter")
+    .regex(/[0-9]/, "Password must contain at least one number"),
+  otp: z
+    .string()
+    .length(6, "OTP must be exactly 6 digits")
+    .regex(/^\d+$/, "OTP must contain only numbers"),
 });
 
 const PasswordReset = () => {
@@ -34,7 +42,8 @@ const PasswordReset = () => {
     mode: "onChange",
     reValidateMode: "onChange",
     defaultValues: {
-      password: "",
+      newPassword: "",
+      otp: "",
     },
   });
 
@@ -47,12 +56,16 @@ const PasswordReset = () => {
     formState: { errors, isValid },
   } = form;
 
-  const passwordVal = watch("password") || "";
-  const checkPassword = passwordVal !== "" && !errors.password;
+  const passwordVal = watch("newPassword") || "";
+  const checkPassword = passwordVal !== "" && !errors.newPassword;
+
+  const otp = watch("otp");
+  const otpCheck = otp != "" && !errors.otp;
 
   const [showPassword, setShowPassword] = useState(false);
 
   const { sendResetPassword, handleSendResetPassword } = useLogin();
+
   return (
     <AuthScreen titleText={"Reset Password"} loginImg={loginImg}>
       <div>
@@ -64,7 +77,7 @@ const PasswordReset = () => {
             <div className="">
               <FormField
                 control={form.control}
-                name="password"
+                name="newPassword"
                 render={({ field }) => (
                   <FormItem className="pb-3">
                     <FormLabel className="font-inter font-normal text-[#110F10] text-sm">
@@ -100,6 +113,30 @@ const PasswordReset = () => {
                             }`}
                           />
                         </div>
+                      </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="otp"
+                render={({ field }) => (
+                  <FormItem className="pb-3">
+                    <FormLabel className="font-inter font-normal text-[#110F10] text-sm">
+                      Email Otp
+                    </FormLabel>
+                    <FormControl>
+                      <div className="relative">
+                        <Input
+                          className={`font-inter font-normal rounded-sm py-3 text-sm border-[0.4px] ${
+                            otpCheck ? "border-main" : "border-[#6C696A]"
+                          } placeholder:text-[#6C696A]`}
+                          placeholder="Enter your OTP"
+                          type="text"
+                          {...field}
+                        />
                       </div>
                     </FormControl>
                     <FormMessage />
