@@ -4,10 +4,12 @@ export const apis = {
   auth: {
     login: `${baseUrl}auth/login`,
     register: `${baseUrl}auth/register`,
-    refresh: `${baseUrl}refresh-token`,
+    refresh: `${baseUrl}auth/refresh-token`,
     forgotPassword: `${baseUrl}auth/forgot-password`,
     resetPassword: `${baseUrl}auth/reset-password`,
-    businessProfile: `${baseUrl}auth/update-business-profile`,
+
+    businessProfile: `${baseUrl}update-business-profile`,
+    uploadMultipleDocs: `${baseUrl}upload-multiple-documents`,
 
     smsOtp: `${baseUrl}auth/send-sms-otp`,
     emailOtp: `${baseUrl}auth/send-email-otp`,
@@ -18,5 +20,8 @@ export const apis = {
   users: {
     getProfile: `${baseUrl}profile`,
     updateProfile: `${baseUrl}users/update`,
+  },
+  general: {
+    dashboard: `${baseUrl}dashboard`,
   },
 };

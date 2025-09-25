@@ -5,15 +5,23 @@ import InstantDelivery from "@/components/dashboard/instantDelivery";
 import ScheduleDelivery from "@/components/dashboard/scheduleDelivery";
 import SideNav from "@/components/dashboard/sideNav";
 import TrackDelivery from "@/components/dashboard/trackDelivery";
+import { useUser } from "@/hooks/sign-up/useUserData";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 import { BsArrowUpRightCircle } from "react-icons/bs";
+import { useDashboard } from "./useDasboard";
+import { StatCard } from "@/components/dashboard/statsCard";
 
 type ScreenType = "instant" | "schedule" | "track" | "delivery";
 
 const Dashboard = () => {
   const [type, setType] = useState<"delivery" | "transactions">("delivery");
   const [screenType, setScreenType] = useState<ScreenType>("instant");
+
+  const { user } = useUser();
+  const { getDashDetails } = useDashboard();
+  const router = useRouter();
 
   const cardTypes: { title: string; para: string; showPage: ScreenType }[] = [
     {
@@ -40,45 +48,35 @@ const Dashboard = () => {
 
   return (
     <SideNav>
+      {user?.profileComplete === false && (
+        <div className="flex items-center justify-between border border-main p-1 rounded-sm mb-3">
+          <p className="font-poppins font-medium text-main text-xs">
+            Your business profile is incomplete!
+          </p>
+          <button
+            onClick={() => router.push("/business-profile")}
+            className="p-1.5 text-white font-inter text-xs bg-main border border-main rounded-sm cursor-pointer"
+          >
+            Complete now
+          </button>
+        </div>
+      )}
       <div className="flex lg:flex-row flex-col gap-2">
         <div className="gap-2 w-full flex flex-col ">
           <div className="flex md:flex-row flex-col items-center gap-2">
-            <div className="border flex flex-col rounded-sm justify-between border-[#433374] w-full h-[150px] p-1">
-              <p className="text-[#2D224D] text-center text-sm font-bold font-poppins">
-                Number of deliveries
-              </p>
+            <StatCard
+              title="Number of deliveries"
+              weeklyValue={getDashDetails?.data?.weeklyDeliveries ?? 0}
+              monthlyValue={getDashDetails?.data?.monthlyDeliveries ?? 0}
+              isLoading={getDashDetails?.isPending}
+            />
 
-              <p className="text-[#2D224D] font-medium text-5xl text-center font-poppins">
-                760/week
-              </p>
-
-              <div className="flex items-center gap-2">
-                <button className="text-sm font-inter bg-[#2D224D] w-full p-3 cursor-pointer font-medium text-white rounded-sm ">
-                  Weekly
-                </button>
-                <button className="text-sm font-inter bg-white border border-[#2D224D] w-full p-3 cursor-pointer font-medium text-[#2D224D] rounded-sm ">
-                  Monthly
-                </button>
-              </div>
-            </div>
-            <div className="border flex flex-col rounded-sm justify-between border-[#433374] w-full h-[150px] p-1">
-              <p className="text-[#2D224D] text-center text-sm font-bold font-poppins">
-                Number of subcription
-              </p>
-
-              <p className="text-[#2D224D] font-medium text-5xl text-center font-poppins">
-                34/month
-              </p>
-
-              <div className="flex items-center gap-2">
-                <button className="text-sm font-inter bg-[#2D224D] w-full p-3 cursor-pointer font-medium text-white rounded-sm ">
-                  Weekly
-                </button>
-                <button className="text-sm font-inter bg-white border border-[#2D224D] w-full p-3 cursor-pointer font-medium text-[#2D224D] rounded-sm ">
-                  Monthly
-                </button>
-              </div>
-            </div>
+            <StatCard
+              title="Number of subscriptions"
+              weeklyValue={getDashDetails?.data?.weeklySubscriptions ?? 0}
+              monthlyValue={getDashDetails?.data?.monthlySubscriptions ?? 0}
+              isLoading={getDashDetails?.isPending}
+            />
           </div>
 
           <div className="rounded-sm p-1 border border-[#433374] ">

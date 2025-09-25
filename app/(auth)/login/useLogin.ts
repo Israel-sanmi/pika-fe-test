@@ -5,9 +5,11 @@ import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import Cookies from "js-cookie";
+import { useUser } from "@/hooks/sign-up/useUserData";
 
 export const useLogin = () => {
   const router = useRouter();
+  const { updateUser } = useUser();
   const loginMutation = useMutation({
     mutationKey: ["login"],
     mutationFn: async (payload: { email: string; password: string }) => {
@@ -18,12 +20,21 @@ export const useLogin = () => {
       console.log("Signin successful:", data);
       toast.success(`Welcome: ${data.data.user.fullName}`);
 
-      // saved Cookies
-      Cookies.set("accessToken", data.data.tokens.accessToken, { secure: true });
-      Cookies.set("refreshToken", data.data.tokens.refreshToken, { secure: true });
-      Cookies.set("userID", data.data.tokens.uid);
+      Cookies.set("accessToken", data.data.tokens.accessToken, {
+        secure: true,
+      });
+      Cookies.set("refreshToken", data.data.tokens.refreshToken, {
+        secure: true,
+      });
 
-      router.push("/dashboard")
+      updateUser(data.data.user);
+
+      router.push("/dashboard");
+      // if (data.data.user.profileComplete) {
+      //   router.push("/dashboard");
+      // } else {
+      //   router.push("/business-profile");
+      // }
     },
     onError: (error: any) => {
       console.error("Signin failed:", error.response?.data || error.message);

@@ -37,8 +37,7 @@ export const useSignUp = () => {
       return res.data;
     },
     onSuccess: () => toast.success("OTP sent to email"),
-    onError: (err: any) =>
-      toast.error(`Email OTP failed: ${getErrorMessage(err)}`),
+    onError: (err: any) => toast.error(`${getErrorMessage(err)}`),
   });
 
   const handleSendPhoneOtps = useMutation({
@@ -53,8 +52,7 @@ export const useSignUp = () => {
       Cookies.set("pinId", data?.data?.pinId);
       toast.success("OTP sent to phone");
     },
-    onError: (err: any) =>
-      toast.error(`SMS OTP failed: ${getErrorMessage(err)}`),
+    onError: (err: any) => toast.error(`${getErrorMessage(err)}`),
   });
 
   const handleSignUp = async ({
@@ -76,7 +74,7 @@ export const useSignUp = () => {
       toast.success("OTPs sent to email and phone");
       router.push("/sign-up/verify-account");
     } catch (err: any) {
-      toast.error(`Failed to send OTPs: ${getErrorMessage(err)}`);
+      toast.error(`${getErrorMessage(err)}`);
     } finally {
       setIsSendingOtp(false);
     }
@@ -117,39 +115,11 @@ export const useSignUp = () => {
     },
   });
 
-  const businessProfileSetup = useMutation({
-    mutationKey: ["businessProfileSetup"],
-    mutationFn: async (values: any) => {
-      const res = await axios.post(apis.auth.businessProfile, {
-        fullName: values.businessName,
-        address: values.businessAddress,
-        filename: values.businessLogo,
-        latitude,
-        longitude,
-        website: values.website,
-        about: values.about,
-        businessType: values.businessType,
-        esthablishedYear: values.esthablishedYear,
-        businessEmail: values.businessEmail,
-        businessPhone: values.businessPhone,
-      });
-      return res.data;
-    },
-    onSuccess: () => {
-      toast.success("Business profile setup successful ✅");
-      router.push("/business-profile/success");
-      resetData();
-    },
-    onError: (err: any) =>
-      toast.error(`Business profile setup failed: ${getErrorMessage(err)}`),
-  });
-
   return {
     handleSignUp,
     handleSendEmailOtps,
     handleSendPhoneOtps,
     verifyOtpMutation,
-    businessProfileSetup,
     isSendingOtp,
   };
 };

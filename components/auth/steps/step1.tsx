@@ -68,7 +68,10 @@ const StepOne = ({ setSteps }: any) => {
   return (
     <div>
       <Form {...form}>
-        <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
+        <form
+          className="space-y-2 overflow-y-scroll scrollbar-hide"
+          onSubmit={form.handleSubmit(onSubmit)}
+        >
           <FormField
             control={control}
             name="businessName"

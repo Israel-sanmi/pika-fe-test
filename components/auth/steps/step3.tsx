@@ -23,8 +23,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useSignUp } from "@/hooks/sign-up/useSignUp";
 import { RiLoader3Fill } from "react-icons/ri";
+import Image from "next/image";
+import { useBusinessProfileSetup } from "@/hooks/sign-up/useBusinessProfileSetup";
+import { useBusinessStore } from "@/store/businessProfileStore";
 
 const MAX_FILE_SIZE = 3 * 1024 * 1024;
 // const MIN_FILE_SIZE = 1 * 1024 * 1024;
@@ -35,19 +37,12 @@ const formSchema = z.object({
     .custom<FileList>((val) => val instanceof FileList && val.length > 0, {
       message: "Upload business logo",
     })
-    .refine((files) => files instanceof FileList && files.length > 0, {
-      message: "Please select an image file",
-    })
     .refine(
       (files) =>
         files instanceof FileList &&
         ACCEPTED_IMAGE_TYPES.includes(files[0]?.type),
       { message: "Only .jpg, .jpeg, .png formats are supported" }
     )
-    // .refine(
-    //   (files) => files instanceof FileList && files[0]?.size >= MIN_FILE_SIZE,
-    //   { message: "File must be at least 1MB" }
-    // )
     .refine(
       (files) => files instanceof FileList && files[0]?.size <= MAX_FILE_SIZE,
       { message: "File must not exceed 3MB" }
@@ -56,9 +51,9 @@ const formSchema = z.object({
     .string()
     .min(1, "Email is required")
     .regex(/\S+@\S+\.\S+/, "Invalid email address"),
-  businessPhone: z.string().regex(/^\d{10,11}$/, {
-    message: "Phone number must be between 10 and 11 digits",
-  }),
+  businessPhone: z
+    .string()
+    .regex(/^\d{10,11}$/, "Phone number must be 10–11 digits"),
   businessType: z.string().min(1, "Select a business type"),
 });
 
@@ -91,18 +86,21 @@ const StepThree = ({ setSteps }: any) => {
   const emailCheck = emailVal !== "" && !errors.businessEmail;
   const phoneNumberCheck = phoneVal !== "" && !errors.businessPhone;
 
+  const updateData = useBusinessStore((state) => state.updateData);
+
   const businessTypeList = ["retail", "wholesale", "hospitality"];
 
-  const { businessProfileSetup } = useSignUp();
+  const onSubmit = (values: z.infer<typeof formSchema>) => {
+    updateData(values);
+    setSteps(4);
+  };
 
   return (
-    <div>
+    <div className="overflow-y-scroll scrollbar-hide">
       <Form {...form}>
         <form
-          className="space-y-4"
-          onSubmit={handleSubmit((values) =>
-            businessProfileSetup.mutate(values)
-          )}
+          className="space-y-2 overflow-y-scroll scrollbar-hide"
+          onSubmit={handleSubmit(onSubmit)}
         >
           <FormField
             control={control}
@@ -151,6 +149,16 @@ const StepThree = ({ setSteps }: any) => {
                     </p>
                   </div>
                 </FormControl>
+                {businessLogoCheck && businessLogoCheck[0] && (
+                  <Image
+                    width={100}
+                    height={100}
+                    src={URL.createObjectURL(businessLogoCheck[0])}
+                    alt="Business Logo Preview"
+                    className="mt-2 h-20 w-20 object-cover border rounded"
+                  />
+                )}
+
                 <FormMessage />
               </FormItem>
             )}
@@ -260,16 +268,20 @@ const StepThree = ({ setSteps }: any) => {
           />
 
           <button
-            disabled={!isValid || businessProfileSetup.isPending}
+            disabled={
+              !isValid
+              // || businessProfileSetup.isPending
+            }
             className={`${
               isValid ? "bg-main" : "bg-inactive pointer-events-none"
             } w-full text-white py-2 mt-5 flex items-center justify-center text-sm cursor-pointer font-inter font-semibold rounded-2xl`}
           >
-            {businessProfileSetup.isPending ? (
+            {/* {businessProfileSetup.isPending ? (
               <RiLoader3Fill className="animate-spin" size={20} />
             ) : (
-              "Complete Setup"
-            )}
+              // "Complete Setup"
+            )} */}
+            "Continue"
           </button>
         </form>
       </Form>

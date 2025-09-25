@@ -1,5 +1,10 @@
 import { create } from "zustand";
 
+interface OperatingHour {
+  open: string;
+  close: string;
+}
+
 interface BusinessData {
   businessName?: string;
   businessAddress?: string;
@@ -8,18 +13,19 @@ interface BusinessData {
 
   businessDoc?: FileList;
   KYC?: FileList;
-  //   BVN?: FileList;
+
   documentType?: string[];
 
   about?: string;
   businessType?: string;
   esthablishedYear?: string;
 
-  //   services?: string;
   businessLogo?: FileList;
   businessEmail?: string;
   businessPhone?: string;
-  
+
+  services?: string;
+  operatingHours?: Record<string, OperatingHour>;
 }
 
 interface BusinessStore {

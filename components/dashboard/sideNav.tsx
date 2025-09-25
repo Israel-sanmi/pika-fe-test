@@ -16,6 +16,7 @@ import { FiMenu } from "react-icons/fi";
 import { Skeleton } from "../ui/skeleton";
 import { IoCloseSharp } from "react-icons/io5";
 import MobileNav from "./mobileNav";
+import { useUser } from "@/hooks/sign-up/useUserData";
 
 const SideNav = ({ children }: React.PropsWithChildren) => {
   const navLinks = [
@@ -50,11 +51,13 @@ const SideNav = ({ children }: React.PropsWithChildren) => {
   const router = useRouter();
 
   const { getProfileDetails } = useDashboard();
+  const { clearUser } = useUser();
 
   const handleLogout = () => {
     Cookies.remove("accessToken");
     Cookies.remove("refreshToken");
     router.push("/login");
+    clearUser();
   };
 
   const [openModal, setOpenModal] = useState(false);
@@ -104,7 +107,7 @@ const SideNav = ({ children }: React.PropsWithChildren) => {
                     alt={getProfileDetails.data.image_url!}
                     width={100}
                     height={100}
-                    className="h-8 w-8 rounded-full object-contain"
+                    className="h-8 w-8 rounded-full object-cover"
                   />
                 ) : (
                   <Skeleton className="h-8 flex-none w-8 rounded-full" />

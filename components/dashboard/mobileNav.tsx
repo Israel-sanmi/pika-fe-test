@@ -58,7 +58,7 @@ const MobileNav = ({ navLinks, getProfileDetails, handleLogout }: any) => {
                     alt={getProfileDetails.data.image_url!}
                     width={100}
                     height={100}
-                    className="h-8 w-8 rounded-full object-contain"
+                    className="h-8 w-8 rounded-full object-cove"
                   />
                 ) : (
                   <Skeleton className="h-8 flex-none w-8 rounded-full" />

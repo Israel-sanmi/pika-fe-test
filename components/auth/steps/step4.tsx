@@ -14,9 +14,9 @@ import {
 } from "@/components/ui/form";
 import { useRouter } from "next/navigation";
 import { MdOutlineFileUpload } from "react-icons/md";
-import { useSignUp } from "@/hooks/sign-up/useSignUp";
+import { useBusinessStore } from "@/store/businessProfileStore";
+import { useBusinessProfileSetup } from "@/hooks/sign-up/useBusinessProfileSetup";
 import { RiLoader3Fill } from "react-icons/ri";
-
 
 const formSchema = z
   .object({
@@ -66,7 +66,10 @@ const StepFour = ({ setSteps }: any) => {
   const KYC = watch("KYC") as FileList | undefined;
   const documentTypesCheck = watch("documentTypes");
 
-  const { businessProfileSetup } = useSignUp();
+  const updateData = useBusinessStore((state) => state.updateData);
+
+  // const { businessProfileDocs } = useBusinessProfileSetup();
+  const { submitAll } = useBusinessProfileSetup();
 
   const FileUpload = ({
     field,
@@ -89,7 +92,7 @@ const StepFour = ({ setSteps }: any) => {
         </FormLabel>
         <FormControl>
           <label
-            className={`flex items-center justify-between border-[0.4px] rounded-sm py-2 px-3 cursor-pointer text-sm font-inter transition ${
+            className={`flex items-center w-full justify-between border-[0.4px] rounded-sm py-2 px-3 cursor-pointer text-sm font-inter transition ${
               value && value.length > 0
                 ? "border-main text-black"
                 : "border-[#6C696A] text-[#6C696A]"
@@ -119,10 +122,11 @@ const StepFour = ({ setSteps }: any) => {
     <div>
       <Form {...form}>
         <form
-          className="space-y-4"
-          //   onSubmit={handleSubmit((values) =>
-          //     businessProfileSetup.mutate(values)
-          //   )}
+          className="space-y-2 overflow-y-scroll scrollbar-hide"
+          onSubmit={handleSubmit((values) => {
+            updateData(values);
+            submitAll.mutate();
+          })}
         >
           <FormField
             control={control}
@@ -185,17 +189,17 @@ const StepFour = ({ setSteps }: any) => {
                 field={field}
                 label="Identity Card"
                 placeholder="Upload NIN, International Passport, Utility bill, etc"
-                value={businessDoc}
+                value={KYC}
               />
             )}
           />
           <button
-            disabled={!isValid || businessProfileSetup.isPending}
+            disabled={!isValid || submitAll.isPending}
             className={`${
               isValid ? "bg-main" : "bg-inactive pointer-events-none"
             } w-full text-white py-2 mt-5 flex items-center justify-center text-sm cursor-pointer font-inter font-semibold rounded-2xl`}
           >
-            {businessProfileSetup.isPending ? (
+            {submitAll.isPending ? (
               <RiLoader3Fill className="animate-spin" size={20} />
             ) : (
               "Upload Documents"

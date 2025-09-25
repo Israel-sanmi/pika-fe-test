@@ -12,8 +12,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { useRouter } from "next/navigation";
-import { MdOutlineFileUpload } from "react-icons/md";
-import { useBusinessStore } from "@/store/businessProfileStore";
 import { IoCheckmarkCircle } from "react-icons/io5";
 import { Textarea } from "@/components/ui/textarea";
 import {
@@ -24,14 +22,28 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
+import { useBusinessStore } from "@/store/businessProfileStore";
+import OperatingHoursSelector from "./openingHourSelector";
 
 const formSchema = z.object({
   services: z.string().min(1, "Add services offered"),
   about: z.string().min(1, "Input business description"),
   esthablishedYear: z.string().min(4, "Select the start year"),
+  operatingHours: z
+    .record(
+      z.string(),
+      z.object({
+        open: z.string().min(1),
+        close: z.string().min(1),
+        selected: z.literal(true),
+      })
+    )
+    .refine((val) => Object.keys(val).length > 0, {
+      message: "Select at least one day",
+    }),
 });
 
-const StepTwo = ({ setSteps }: any) => {
+const StepTwo = ({ setSteps }: { setSteps: (step: number) => void }) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     mode: "onChange",
@@ -49,90 +61,90 @@ const StepTwo = ({ setSteps }: any) => {
     handleSubmit,
     formState: { errors, isValid },
   } = form;
-  const router = useRouter();
 
-  const servicesCheck = watch("services") || "";
-  const aboutCheck = watch("about") || "";
-  const esthablishedYearCheck = watch("esthablishedYear") || "";
-  
+  const router = useRouter();
+  const updateData = useBusinessStore((state) => state.updateData);
 
   const currentYear = new Date().getFullYear();
   const years = Array.from({ length: currentYear - 1950 + 1 }, (_, i) =>
     String(currentYear - i)
   );
 
-
-  const updateData = useBusinessStore((state) => state.updateData);
-  const onSubmit = (values: any) => {
+  const onSubmit = (values: z.infer<typeof formSchema>) => {
     updateData(values);
     setSteps(3);
   };
 
   return (
     <Form {...form}>
-      <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
+      <form
+        className="space-y-4 h-[70vh] scrollbar-hide overflow-y-scroll"
+        onSubmit={handleSubmit(onSubmit)}
+      >
         <FormField
           control={control}
           name="services"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="font-inter font-normal text-[#110F10] text-sm">
+              <FormLabel className="font-inter text-sm text-[#110F10]">
                 Services Offered<span className="text-main">*</span>
               </FormLabel>
               <FormControl>
                 <div className="relative">
                   <Input
-                    className={`font-inter font-normal rounded-sm py-3 text-sm border-[0.4px] ${
-                      servicesCheck && !errors.services
+                    {...field}
+                    placeholder="Add services (comma separated)"
+                    className={`font-inter rounded-sm py-3 text-sm border-[0.4px] ${
+                      errors.services
+                        ? "border-red-500"
+                        : field.value
                         ? "border-main"
                         : "border-[#6C696A]"
                     } placeholder:text-[#6C696A]`}
-                    placeholder="Add services"
-                    type="text"
-                    {...field}
                   />
                   <IoCheckmarkCircle
                     size={20}
                     className={`absolute right-2 top-2 ${
-                      servicesCheck && !errors.services
+                      field.value && !errors.services
                         ? "text-main"
                         : "text-[#B5B4B4]"
                     }`}
                   />
-                  <p className="text-xs italic font-poppins pt-1 font-normal text-[#918F8F]">
-                    Separate the services with comma
-                  </p>
                 </div>
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-
-    
 
         <FormField
           control={control}
           name="about"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="font-inter font-normal text-[#110F10] text-sm">
+              <FormLabel className="font-inter text-sm text-[#110F10]">
                 Business Description<span className="text-main">*</span>
               </FormLabel>
               <FormControl>
                 <div className="relative">
                   <Textarea
-                    className={`font-inter font-normal rounded-sm py-3 text-sm border-[0.4px] ${
-                      aboutCheck ? "border-main" : "border-[#6C696A]"
-                    } placeholder:text-[#6C696A]`}
-                    placeholder="Enter business description"
                     {...field}
+                    placeholder="Enter business description"
+                    className={`font-inter rounded-sm py-3 text-sm border-[0.4px] ${
+                      errors.about
+                        ? "border-red-500"
+                        : field.value
+                        ? "border-main"
+                        : "border-[#6C696A]"
+                    } placeholder:text-[#6C696A]`}
                   />
                   <IoCheckmarkCircle
                     size={20}
-                    className={`${
-                      aboutCheck ? "text-main" : "text-[#B5B4B4]"
-                    } absolute right-2 top-2`}
+                    className={`absolute right-2 top-2 ${
+                      field.value && !errors.about
+                        ? "text-main"
+                        : "text-[#B5B4B4]"
+                    }`}
                   />
                 </div>
               </FormControl>
@@ -140,12 +152,13 @@ const StepTwo = ({ setSteps }: any) => {
             </FormItem>
           )}
         />
+
         <FormField
           control={control}
           name="esthablishedYear"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="font-inter font-normal text-[#110F10] text-sm">
+              <FormLabel className="font-inter text-sm text-[#110F10]">
                 Select a start year<span className="text-main">*</span>
               </FormLabel>
               <FormControl>
@@ -154,19 +167,19 @@ const StepTwo = ({ setSteps }: any) => {
                   defaultValue={field.value}
                 >
                   <SelectTrigger
-                    className={`font-inter font-normal w-full rounded-sm py-3 text-sm border-[0.4px] ${
-                      field.value ? "border-main" : "border-[#6C696A]"
+                    className={`font-inter w-full rounded-sm py-3 text-sm border-[0.4px] ${
+                      errors.esthablishedYear
+                        ? "border-red-500"
+                        : field.value
+                        ? "border-main"
+                        : "border-[#6C696A]"
                     }`}
                   >
                     <SelectValue placeholder="Choose year" />
                   </SelectTrigger>
                   <SelectContent>
                     {years.map((year) => (
-                      <SelectItem
-                        className="font-inter"
-                        key={year}
-                        value={year}
-                      >
+                      <SelectItem key={year} value={year}>
                         {year}
                       </SelectItem>
                     ))}
@@ -178,14 +191,34 @@ const StepTwo = ({ setSteps }: any) => {
           )}
         />
 
+        <FormField
+          control={control}
+          name="operatingHours"
+          render={() => (
+            <FormItem>
+              <FormLabel className="font-inter text-sm">
+                Business Hours<span className="text-main">*</span>
+              </FormLabel>
+              <FormControl>
+                <OperatingHoursSelector
+                  onChange={(val: any) =>
+                    form.setValue("operatingHours", val, {
+                      shouldValidate: true,
+                      shouldDirty: true,
+                    })
+                  }
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
         <button
-          // disabled={!businessDoc || !KYC}
-          disabled={!aboutCheck || !esthablishedYearCheck || !servicesCheck}
-          // onClick={() => setSteps((prev: number) => prev + 1)}
+          type="submit"
+          disabled={!isValid}
           className={`${
-            aboutCheck && esthablishedYearCheck && servicesCheck
-              ? "bg-main"
-              : "bg-inactive pointer-events-none"
+            isValid ? "bg-main" : "bg-inactive pointer-events-none"
           } w-full text-white py-2 mt-5 text-sm cursor-pointer font-inter font-semibold rounded-2xl`}
         >
           Continue
