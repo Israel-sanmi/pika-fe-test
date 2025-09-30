@@ -43,7 +43,7 @@ const formSchema = z.object({
     }),
 });
 
-const StepTwo = ({ setSteps }: { setSteps: (step: number) => void }) => {
+const StepTwo = ({ setSteps }: any) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     mode: "onChange",
