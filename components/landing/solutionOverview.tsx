@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect } from "react";
 import { FaBrain } from "react-icons/fa";
+import ProductNodes from "./productNodes";
 
 const SolutionOverview = () => {
   useEffect(() => {
@@ -46,66 +47,7 @@ const SolutionOverview = () => {
           </p>
         </div>
 
-        <div className="relative max-w-4xl mx-auto p-16 min-h-[500px]">
-          <div className="absolute top-1/2 left-1/2 z-10 brain-core transition-transform duration-300">
-            <div className="w-32 h-32 rounded-full bg-gradient-to-br from-main to-blue-500 text-white flex flex-col items-center justify-center font-bold shadow-[0_0_50px_rgba(241,91,52,0.4)] animate-pulse">
-              <FaBrain className="text-3xl mb-1" />
-              <span className="text-sm font-inter">AI Engine</span>
-            </div>
-          </div>
-
-          <div className="relative w-full h-[500px]">
-            {[
-              {
-                product: "business",
-                label: "Pika for Business",
-                icon: "💼",
-                pos: "top-5 left-5",
-              },
-              {
-                product: "box2door",
-                label: "Box2Door",
-                icon: "📦",
-                pos: "top-5 right-5",
-              },
-              {
-                product: "routely",
-                label: "Routely",
-                icon: "🛣️",
-                pos: "bottom-5 left-5",
-              },
-              {
-                product: "warehouse",
-                label: "Pika Warehouse",
-                icon: "🏭",
-                pos: "bottom-5 right-5",
-              },
-              {
-                product: "fleet",
-                label: "Pika Fleet",
-                icon: "🚚",
-                pos: "top-1/2 right-[-20px] -translate-y-1/2",
-              },
-              {
-                product: "insights",
-                label: "Pika Insights",
-                icon: "📊",
-                pos: "top-1/2 left-[-20px] -translate-y-1/2",
-              },
-            ].map((node) => (
-              <div
-                key={node.product}
-                className={`product-node absolute ${node.pos} w-36 h-24 bg-white border-2 border-gray-200 rounded-lg flex flex-col items-center justify-center shadow-md transition-all duration-300 cursor-pointer`}
-                data-product={node.product}
-              >
-                <div className="text-2xl mb-1">{node.icon}</div>
-                <div className="text-sm font-inter font-medium text-gray-700 text-center">
-                  {node.label}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+        <ProductNodes/>
       </div>
 
       <style jsx>{`
