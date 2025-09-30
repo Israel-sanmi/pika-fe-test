@@ -36,7 +36,7 @@ export function createAxiosInstance(): AxiosInstance {
           const refreshToken = Cookies.get("refreshToken");
           if (!refreshToken) throw new Error("No refresh token available");
 
-          const { data } = await axios.post(`${baseUrl}refresh-token`, {
+          const { data } = await axios.post(`${baseUrl}auth/refresh-token`, {
             refreshToken,
           });
 

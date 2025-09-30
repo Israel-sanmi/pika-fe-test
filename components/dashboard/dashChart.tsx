@@ -1,7 +1,5 @@
 "use client";
-
 import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
-
 import {
   ChartConfig,
   ChartContainer,
@@ -9,41 +7,26 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 
-export const description = "A bar chart";
-
-const chartData = [
-  { month: "January", desktop: 186 },
-  { month: "February", desktop: 305 },
-  { month: "March", desktop: 237 },
-  { month: "April", desktop: 73 },
-  { month: "May", desktop: 209 },
-  { month: "June", desktop: 214 },
-];
-
 const chartConfig = {
-  desktop: {
-    label: "Desktop",
-    color: "var(--chart-1)",
+  value: {
+    label: "Count",
+    color: "#433374",
   },
 } satisfies ChartConfig;
 
-export function DashChart() {
+export function DashChart({ data }: { data: { date: string; value: number }[] }) {
   return (
     <ChartContainer className="h-[200px] w-full" config={chartConfig}>
-      <BarChart accessibilityLayer data={chartData}>
+      <BarChart data={data}>
         <CartesianGrid vertical={false} />
         <XAxis
-          dataKey="month"
+          dataKey="date"
           tickLine={false}
           tickMargin={10}
           axisLine={false}
-          tickFormatter={(value) => value.slice(0, 3)}
         />
-        <ChartTooltip
-          cursor={false}
-          content={<ChartTooltipContent hideLabel />}
-        />
-        <Bar dataKey="desktop" fill="#433374" radius={8} />
+        <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
+        <Bar dataKey="value" fill="#433374" radius={8} />
       </BarChart>
     </ChartContainer>
   );

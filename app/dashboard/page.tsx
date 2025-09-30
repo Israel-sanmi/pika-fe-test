@@ -12,6 +12,8 @@ import React, { useState } from "react";
 import { BsArrowUpRightCircle } from "react-icons/bs";
 import { useDashboard } from "./useDasboard";
 import { StatCard } from "@/components/dashboard/statsCard";
+import { transformTrends } from "@/utils/dateTransform";
+import { Loader2 } from "lucide-react";
 
 type ScreenType = "instant" | "schedule" | "track" | "delivery";
 
@@ -103,17 +105,33 @@ const Dashboard = () => {
                   Transactions
                 </p>
               </div>
-              <div className="flex items-center gap-2">
+              {/* <div className="flex items-center gap-2">
                 <button className="text-sm font-inter bg-[#2D224D] w-full px-3 py-2 cursor-pointer font-medium text-white rounded-sm ">
                   Weekly
                 </button>
                 <button className="text-sm font-inter bg-white border border-[#2D224D] w-full px-3 py-2 cursor-pointer font-medium text-[#2D224D] rounded-sm ">
                   Monthly
                 </button>
-              </div>
+              </div> */}
             </div>
             <div className="mt-5">
-              <DashChart />
+              {getDashDetails?.isPending ? (
+                <div className="w-full flex my-5 justify-center items-center ">
+                  <Loader2 size={20} className="text-main animate-spin" />
+                </div>
+              ) : (
+                <DashChart
+                  data={
+                    type === "delivery"
+                      ? transformTrends(
+                          getDashDetails?.data?.deliveryTrends ?? {}
+                        )
+                      : transformTrends(
+                          getDashDetails?.data?.transactionTrends ?? {}
+                        )
+                  }
+                />
+              )}
             </div>
           </div>
 
