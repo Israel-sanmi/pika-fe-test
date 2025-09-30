@@ -41,7 +41,7 @@ const NavBar = () => {
           ].map((item) => (
             <a
               key={item}
-              href={`#${item.toLowerCase()}`}
+              href={item === "Home" ? "#hero" : `#${item.toLowerCase()}`}
               className="relative  text-gray-700 hover:text-primary px-6 lg:px-0 py-3 lg:py-0"
             >
               {item}

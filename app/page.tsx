@@ -22,6 +22,7 @@ import IntegrationSection from "@/components/landing/integrationSection";
 import PricingSection from "@/components/landing/pricingSection";
 import TrustSection from "@/components/landing/trustSection";
 import FinalCTA from "@/components/landing/finalCTA";
+import Footer from "@/components/landing/footer";
 
 export default function Home() {
   const router = useRouter();
@@ -436,7 +437,8 @@ export default function Home() {
       <IntegrationSection />
       <PricingSection />
       <TrustSection />
-      <FinalCTA/>
+      <FinalCTA />
+      <Footer />
     </div>
   );
 }
