@@ -1,8 +1,10 @@
 "use client";
+import { useRouter } from "next/navigation";
 import React from "react";
 import { FaStore, FaRocket, FaEye } from "react-icons/fa";
 
 const BusinessHero: React.FC = () => {
+  const router = useRouter();
   return (
     <section
       id="hero"
@@ -20,7 +22,7 @@ const BusinessHero: React.FC = () => {
             <span className="font-inter text-sm">For Nigerian Businesses</span>
           </div>
 
-          <h1 className="text-5xl text-center md:text-left font-poppins md:text-6xl font-extrabold leading-tight text-gray-900 mb-6">
+          <h1 className="text-4xl sm:text-5xl text-center md:text-left font-poppins md:text-6xl font-extrabold leading-tight text-gray-900 mb-6">
             Stop Losing Customers,{" "}
             <span className="bg-gradient-to-r from-main to-blue-500 bg-clip-text text-transparent">
               Gain More Instead
@@ -52,16 +54,16 @@ const BusinessHero: React.FC = () => {
 
           <div className="flex md:flex-row flex-col gap-4 mb-10">
             <a
-              href="#signup"
-              className="flex md:justify-normal justify-center font-inter text-sm items-center gap-2 px-6 py-3 bg-main text-white font-medium rounded-lg shadow hover:bg-main/90 transition"
+              onClick={()=>router.push("/business-profile/signup")}
+              className="flex md:justify-normal cursor-pointer justify-center font-inter text-sm items-center gap-2 px-6 py-3 bg-main text-white font-medium rounded-lg shadow hover:bg-main/90 transition"
             >
-              <FaRocket /> Start for Free – No Credit Card
+              <FaRocket /> Start for Free
             </a>
             <a
-              href="business-dashboard.html"
-              className="flex md:justify-normal justify-center items-center font-inter text-sm gap-2 px-6 py-3 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-100 transition"
+              // href="business-dashboard.html"
+              className="flex md:justify-normal cursor-pointer justify-center items-center font-inter text-sm gap-2 px-6 py-3 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-100 transition"
             >
-              <FaEye /> See Live Dashboard
+              <FaEye /> See Dashboard
             </a>
           </div>
 
@@ -87,7 +89,7 @@ const BusinessHero: React.FC = () => {
                 <span className="w-3 h-3 bg-green-500 rounded-full" />
               </div>
               <div className="flex items-center gap-2">
-                <span className="text-sm font-poppins font-medium text-gray-600">
+                <span className="text-[10px] sm:text-sm font-poppins font-medium text-gray-600">
                   Pika Business Dashboard
                 </span>
                 <span className="flex items-center gap-1 text-xs text-red-500 font-semibold">

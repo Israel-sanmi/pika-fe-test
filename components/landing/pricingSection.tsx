@@ -1,51 +1,63 @@
 "use client";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 const plans = [
   {
-    name: "Starter",
-    price: "₦5,000",
+    name: "Free",
+    price: "₦0",
     period: "/month",
-    description: "Perfect for small retailers",
+    description: "Perfect for getting started",
     features: [
-      "Basic AI optimization",
-      "Up to 100 orders/month",
-      "2 product integrations",
-      "Standard support",
+      "50 products inventory",
+      "5 vendor connections",
+      "20 customers management",
+      "Basic package tracking",
+      "Basic business visibility",
+      "Email support",
     ],
-    cta: { text: "Start Free Trial", href: "#trial", variant: "outline" },
+
+    cta: { text: "Start Free Trial", href: "#free", variant: "outline" },
   },
   {
-    name: "Professional",
-    price: "₦40,000",
+    name: "Most Popular",
+    price: "₦5,000",
     period: "/month",
-    description: "Growing SMEs",
+    description: "For growing businesses",
     features: [
-      "Advanced AI optimization",
-      "Up to 1,000 orders/month",
-      "All 6 products included",
-      "Priority support",
-      "Custom integrations",
+      " Unlimited products inventory",
+      "100 vendor connections",
+      "Unlimited customers management",
+      "Advanced package tracking",
+      "Advanced business visibility",
+      "Verified badge",
+      "Email support",
     ],
-    cta: { text: "Start Free Trial", href: "#trial", variant: "primary" },
+    cta: { text: "Select plan", href: "#popular", variant: "primary" },
     featured: true,
   },
   {
     name: "Enterprise",
     price: "Custom pricing",
-    description: "Large operations",
+    description: "For established businesses",
     features: [
-      "Full AI suite",
-      "Unlimited orders",
-      "White-label options",
-      "Dedicated support",
-      "Custom development",
+      " Unlimited products inventory",
+      "100 vendor connections",
+      " Unlimited customers management",
+      "Advanced package tracking",
+      "Advanced business visibility",
+      "Verified badge",
+      "Email support",
+      "AI product insight",
+      "Invoice generation",
+      "Multi-store management",
     ],
-    cta: { text: "Contact Sales", href: "#contact", variant: "outline" },
+    cta: { text: "Coming soon", href: "#enterprise", variant: "outline" },
   },
 ];
 
 const PricingSection: React.FC = () => {
+  const router = useRouter();
   return (
     <section id="pricing" className="py-24 bg-gray-50">
       <div className="container mx-auto px-6">
@@ -81,7 +93,9 @@ const PricingSection: React.FC = () => {
                 <div className="flex items-baseline justify-center gap-1 mb-2">
                   {plan.price.startsWith("₦") ? (
                     <>
-                      <span className="text-lg font-inter text-gray-600">₦</span>
+                      <span className="text-lg font-inter text-gray-600">
+                        ₦
+                      </span>
                       <span className="text-4xl font-poppins font-extrabold text-orange-500">
                         {plan.price.replace("₦", "").replace("/month", "")}
                       </span>
@@ -97,12 +111,15 @@ const PricingSection: React.FC = () => {
                     </span>
                   )}
                 </div>
-                <p className="text-gray-600">{plan.description}</p>
+                <p className="text-gray-600 font-inter">{plan.description}</p>
               </div>
 
               <ul className="text-left mb-8 space-y-3">
                 {plan.features.map((feature, fIdx) => (
-                  <li key={fIdx} className="flex font-inter items-center gap-2 text-gray-700">
+                  <li
+                    key={fIdx}
+                    className="flex font-inter items-center gap-2 text-gray-700"
+                  >
                     <span className="text-main ">✔</span>
                     {feature}
                   </li>
@@ -110,8 +127,16 @@ const PricingSection: React.FC = () => {
               </ul>
 
               <a
-                href={plan.cta.href}
-                className={`inline-block px-6 py-3 font-poppins rounded-lg font-semibold transition ${
+                onClick={() => {
+                  if (
+                    plan.cta.href === "#popular" ||
+                    plan.cta.href === "#free"
+                  ) {
+                    router.push("/business-profile/signup");
+                  }
+                }}
+                // href={plan.cta.href}
+                className={`inline-block px-6 py-3 cursor-pointer font-poppins rounded-lg font-semibold transition ${
                   plan.cta.variant === "primary"
                     ? "bg-orange-500 text-white hover:bg-orange-600"
                     : "border-2 border-orange-500 text-orange-500 hover:bg-orange-50"
@@ -122,7 +147,7 @@ const PricingSection: React.FC = () => {
             </div>
           ))}
         </div>
-{/* 
+        {/* 
         <div className="text-center">
           <p className="text-gray-600 font-inter mb-4">
             All plans include AI optimization and cross-product integration
@@ -140,4 +165,3 @@ const PricingSection: React.FC = () => {
 };
 
 export default PricingSection;
-

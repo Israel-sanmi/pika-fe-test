@@ -176,14 +176,14 @@ const ProductsShowcase: React.FC = () => {
                       width={100}
                       height={100}
                       alt="google-play-btn"
-                      className="cursor-pointer shadow-sm"
+                      className="cursor-pointer shadow-sm w-full"
                     />
                     <Image
                       src={appleBtn}
                       width={100}
                       height={100}
                       alt="google-play-btn"
-                      className="cursor-pointer shadow-sm"
+                      className="cursor-pointer shadow-sm w-full"
                     />
                   </div>
                 ) : (

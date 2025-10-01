@@ -101,14 +101,14 @@ const AISpotlight: React.FC = () => {
             ))}
           </div>
         </div>
-        <div className="section-cta text-center mt-16">
+        {/* <div className="section-cta text-center mt-16">
           <a
             href="#trial"
             className="btn inline-block font-poppins px-6 py-3 rounded-lg bg-orange-500 hover:bg-orange-600 text-white font-medium transition-colors"
           >
             Experience AI Intelligence
           </a>
-        </div>
+        </div> */}
       </div>
 
       <style jsx>{`

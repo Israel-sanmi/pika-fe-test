@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import pikaLogo from "@/public/images/pika-logo.png";
+import { useRouter } from "next/navigation";
 
 const NavBar = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -12,6 +13,8 @@ const NavBar = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const router = useRouter();
 
   return (
     <nav
@@ -37,7 +40,7 @@ const NavBar = () => {
             "Products",
             "Results",
             // "Pricing",
-            "Contact",
+            // "Contact",
           ].map((item) => (
             <a
               key={item}
@@ -57,8 +60,8 @@ const NavBar = () => {
             Watch Demo
           </a> */}
           <a
-            href="#trial"
-            className="px-4 py-2 text-sm font-medium text-white bg-main rounded-md hover:bg-main/90 transition"
+            onClick={() => router.push("/business-profile/login")}
+            className="px-4 py-2 cursor-pointer text-sm font-medium text-white bg-main rounded-md hover:bg-main/90 transition"
           >
             Log In
           </a>

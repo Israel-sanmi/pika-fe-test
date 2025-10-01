@@ -91,14 +91,14 @@ const ProblemSection = () => {
           </div>
         </div>
 
-        <div className="text-center">
+        {/* <div className="text-center">
           <a
             href="#solutions"
             className="inline-block font-inter px-8 py-4 rounded-md bg-main text-white font-medium hover:bg-main/90 transition"
           >
             See How Pika Fixes This
           </a>
-        </div>
+        </div> */}
       </div>
     </section>
   );

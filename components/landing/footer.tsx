@@ -8,8 +8,10 @@ import {
   FaInstagram,
 } from "react-icons/fa";
 import pikaLogo from "@/public/images/pika-logo.png";
+import { useRouter } from "next/navigation";
 
 const Footer: React.FC = () => {
+  const router = useRouter();
   return (
     <footer className="bg-gray-900 text-white py-20">
       <div className="container mx-auto px-6">
@@ -60,12 +62,14 @@ const Footer: React.FC = () => {
 
           <div className="lg:col-span-3 grid grid-cols-2 md:grid-cols-4 gap-12">
             <div>
-              <h4 className="text-white font-poppins mb-4 font-semibold">Products</h4>
+              <h4 className="text-white font-poppins mb-4 font-semibold">
+                Products
+              </h4>
               <ul className="space-y-2 font-inter text-sm">
                 <li>
                   <a
-                    href="#business"
-                    className="text-gray-400 hover:text-white"
+                    onClick={() => router.push("/business-profile")}
+                    className="text-gray-400 cursor-pointer hover:text-white"
                   >
                     Pika for Business
                   </a>
@@ -99,7 +103,9 @@ const Footer: React.FC = () => {
               </ul>
             </div>
             <div>
-              <h4 className="text-white mb-4 font-poppins font-semibold">Solutions</h4>
+              <h4 className="text-white mb-4 font-poppins font-semibold">
+                Solutions
+              </h4>
               <ul className="space-y-2 font-inter text-sm">
                 <li>
                   <a
@@ -138,7 +144,9 @@ const Footer: React.FC = () => {
               </ul>
             </div>
             <div>
-              <h4 className="text-white mb-4 font-poppins font-semibold">Company</h4>
+              <h4 className="text-white mb-4 font-poppins font-semibold">
+                Company
+              </h4>
               <ul className="space-y-2 font-inter text-sm">
                 <li>
                   <a href="#about" className="text-gray-400 hover:text-white">
@@ -171,7 +179,9 @@ const Footer: React.FC = () => {
               </ul>
             </div>
             <div>
-              <h4 className="text-white font-poppins mb-4 font-semibold">Support</h4>
+              <h4 className="text-white font-poppins mb-4 font-semibold">
+                Support
+              </h4>
               <ul className="space-y-2 font-inter text-sm">
                 <li>
                   <a href="#help" className="text-gray-400 hover:text-white">

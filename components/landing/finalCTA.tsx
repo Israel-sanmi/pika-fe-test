@@ -5,19 +5,19 @@ import { FaRocket } from "react-icons/fa";
 import { FaCalendar } from "react-icons/fa";
 import { PiTrayArrowDownFill } from "react-icons/pi";
 import { IoShieldCheckmarkSharp } from "react-icons/io5";
+import { useRouter } from "next/navigation";
 
 const FinalCTA: React.FC = () => {
+  const router = useRouter();
   return (
     <section
       id="contact"
       className="relative overflow-hidden py-24 bg-gradient-to-br from-main to-blue-900 text-white text-center"
     >
-      
       <div className="absolute inset-0 -z-0 bg-[radial-gradient(circle,rgba(255,255,255,0.1)_1px,transparent_1px)] [background-size:30px_30px] animate-[patternMove_20s_linear_infinite]" />
 
       <div className="relative z-10 container mx-auto px-6">
         <div className="space-y-10">
-      
           <div className="space-y-6">
             <h2 className="text-3xl font-poppins md:text-4xl font-bold">
               Ready to Transform Your Logistics?
@@ -30,7 +30,7 @@ const FinalCTA: React.FC = () => {
 
           <div className="flex flex-col items-center gap-6">
             <a
-              href="#trial"
+              onClick={() => router.push("/business-profile/signup")}
               className="inline-flex text-sm font-inter items-center gap-2 px-4 py-3 rounded-sm bg-white text-orange-600 font-semibold shadow-lg hover:scale-105 transition"
             >
               <FaRocket className="w-5 h-5" />

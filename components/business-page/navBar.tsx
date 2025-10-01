@@ -34,7 +34,7 @@ const BusinessNav: React.FC = () => {
         </div>
 
         <div
-          className={`absolute font-poppins lg:static top-[70px] left-0 w-full lg:w-auto flex flex-col lg:flex-row items-center gap-6 lg:gap-8 bg-white lg:bg-transparent shadow-md lg:shadow-none transition-all duration-300 ${
+          className={`absolute font-poppins lg:static top-[70px] left-0 w-full lg:w-auto flex flex-col lg:flex-row items-center gap-1 lg:gap-8 bg-white lg:bg-transparent shadow-md lg:shadow-none transition-all duration-300 ${
             menuOpen ? "block" : "hidden lg:flex"
           }`}
         >
@@ -58,16 +58,16 @@ const BusinessNav: React.FC = () => {
 
         <div className="hidden lg:flex items-center gap-4">
           <Link
-            href="business-dashboard.html"
+            href="/business-profile/login"
             className="px-4 font-inter py-2 text-xs font-medium text-gray-700 border border-gray-300 rounded-sm hover:bg-gray-100 transition"
           >
-            View Dashboard
+            Log In
           </Link>
           <Link
-            href="#signup"
+            href="/business-profile/signup"
             className="px-4 py-2 text-xs font-medium font-inter text-white bg-main rounded-sm hover:bg-main/90 transition"
           >
-            Start for Free
+            Sign up
           </Link>
         </div>
 

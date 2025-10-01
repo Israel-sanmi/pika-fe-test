@@ -1,5 +1,6 @@
 // components/FeaturesSection.tsx
 "use client";
+import { useRouter } from "next/navigation";
 import React, { JSX } from "react";
 import {
   FaStar,
@@ -151,13 +152,14 @@ const additionalFeatures = [
 const integrationNodes = [
   { key: "inventory", label: "📦", pos: "top-[18%] left-[12%]" },
   { key: "customer", label: "👥", pos: "top-[18%] right-[12%]" },
-//   { key: "delivery", label: "🚚", pos: "top-[62%] right-[12%]" },
+  //   { key: "delivery", label: "🚚", pos: "top-[62%] right-[12%]" },
   { key: "vendor", label: "🤝", pos: "bottom-[18%] right-[12%]" },
-//   { key: "invoice", label: "📄", pos: "bottom-[18%] left-[12%]" },
+  //   { key: "invoice", label: "📄", pos: "bottom-[18%] left-[12%]" },
   { key: "analytics", label: "📊", pos: "top-[62%] left-[12%]" },
 ];
 
 export default function FeaturesSection(): JSX.Element {
+  const router = useRouter();
   return (
     <section
       id="features"
@@ -272,7 +274,7 @@ export default function FeaturesSection(): JSX.Element {
                     />
                   </div>
 
-                  <div className="flex-1">
+                  <div className="flex-1 hidden sm:block">
                     {f.previewBars && (
                       <div className="space-y-3 max-w-[360px]">
                         {f.previewBars.map((bar, i) => (
@@ -343,7 +345,9 @@ export default function FeaturesSection(): JSX.Element {
                   <h3 className="text-xl font-poppins font-semibold text-slate-800 mb-2">
                     {f.title}
                   </h3>
-                  <p className="text-slate-600 font-inter text-sm mb-4">{f.desc}</p>
+                  <p className="text-slate-600 font-inter text-sm mb-4">
+                    {f.desc}
+                  </p>
 
                   <div className="flex flex-wrap gap-3 mb-4">
                     {f.highlights.map((h, i) => (
@@ -380,7 +384,7 @@ export default function FeaturesSection(): JSX.Element {
               <div className="h-1 bg-gradient-to-r from-[#F15B34] to-[#ff7849]" />
               <div className="p-6">
                 <div className="flex items-start justify-between gap-4">
-                  <div className="flex items-center gap-4">
+                  <div className="flex md:flex-row flex-col items-center gap-4">
                     <div
                       className="w-10 h-10 flex-none rounded-full flex items-center justify-center text-white"
                       style={{
@@ -390,13 +394,15 @@ export default function FeaturesSection(): JSX.Element {
                       {a.icon}
                     </div>
                     <div>
-                      <h4 className="font-semibold font-poppins text-slate-800">
+                      <h4 className="font-semibold text-center md:text-left font-poppins text-slate-800">
                         {a.title}
                       </h4>
-                      <p className="text-sm font-inter text-slate-500">{a.desc}</p>
+                      <p className="text-sm text-center md:text-left font-inter text-slate-500">
+                        {a.desc}
+                      </p>
                     </div>
                   </div>
-                  <div>
+                  <div className="hidden md:block">
                     <div className="text-xs px-3 font-poppins py-1 rounded-md bg-[#FFF7F3] text-[#F15B34] font-semibold">
                       {a.badge}
                     </div>
@@ -413,7 +419,7 @@ export default function FeaturesSection(): JSX.Element {
           ))}
         </div>
 
-        <div className="features-integration bg-white rounded-2xl p-8 shadow-[0_20px_60px_rgba(0,0,0,0.08)] mb-12 relative overflow-hidden">
+        <div className="features-integration bg-white rounded-xl md:rounded-2xl p-3 sm:p-8 shadow-[0_20px_60px_rgba(0,0,0,0.08)] mb-12 relative overflow-hidden">
           <div className="text-center mb-8">
             <h3 className="text-2xl font-poppins font-bold text-slate-800">
               All Features Work Together Seamlessly
@@ -434,7 +440,9 @@ export default function FeaturesSection(): JSX.Element {
               <div className="text-2xl">
                 <FaChartLine2 />
               </div>
-              <div className="text-xs font-semibold mt-1 font-poppins">Pika Business</div>
+              <div className="text-xs font-semibold mt-1 font-poppins">
+                Pika Business
+              </div>
             </div>
 
             {/* <style>{`@keyframes spin{ from{transform:translate(-50%,-50%) rotate(0deg)} to{transform:translate(-50%,-50%) rotate(360deg)} }`}</style> */}
@@ -456,19 +464,19 @@ export default function FeaturesSection(): JSX.Element {
           </div>
         </div>
 
-        <div className="bg-gradient-to-br from-[#F15B34] to-[#ff7849] rounded-2xl shadow-xl p-10 text-center text-white">
+        <div className="bg-gradient-to-br from-[#F15B34] to-[#ff7849] rounded-2xl shadow-xl p-5 sm:p-10 text-center text-white">
           <h3 className="text-2xl md:text-3xl font-poppins font-bold mb-4">
             Ready to Transform Your Business?
           </h3>
-          <p className="mb-6 font-inter max-w-xl mx-auto text-white/90">
+          <p className="mb-6 text-sm sm:text-base font-inter max-w-xl mx-auto text-white/90">
             Join 500+ Nigerian businesses already using all these features
           </p>
           <div className="flex flex-col md:flex-row items-center justify-center gap-4">
             <a
-              href="#signup"
-              className="inline-flex font-inter items-center gap-3 px-6 py-3 bg-white text-[#F15B34] font-semibold rounded-full shadow hover:scale-105 transition"
+              onClick={() => router.push("/business-profile/signup")}
+              className="inline-flex text-sm font-inter items-center gap-3 px-6 py-3 bg-white text-[#F15B34] font-semibold rounded-full shadow hover:scale-105 transition"
             >
-              <FaRocket /> Start Free - Access All Features
+              <FaRocket /> Start Free
             </a>
             <div className="text-sm font-inter text-white/90 flex gap-4 flex-wrap justify-center">
               <span className="inline-flex items-center gap-2">
