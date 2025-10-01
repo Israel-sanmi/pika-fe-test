@@ -3,6 +3,7 @@ import React from "react";
 import googleBtn from "@/public/images/google.png";
 import appleBtn from "@/public/images/apple.png";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 const products = [
   {
@@ -98,6 +99,7 @@ const products = [
 ];
 
 const ProductsShowcase: React.FC = () => {
+  const router = useRouter();
   return (
     <section className="products-showcase py-24 bg-gray-50" id="products">
       <div className="container mx-auto px-6">
@@ -161,12 +163,12 @@ const ProductsShowcase: React.FC = () => {
 
               <div className="w-full ">
                 {p.product === "business" ? (
-                  <a
-                    href="#trial"
+                  <button
+                    onClick={() => router.push("/business-profile")}
                     className="btn btn-outline p-2 font-poppins border border-main text-main rounded-sm text-sm hover:bg-main hover:text-white transition"
                   >
                     Explore
-                  </a>
+                  </button>
                 ) : p.product === "routely" || p.product === "box2door" ? (
                   <div className="flex gap-4 items-center">
                     <Image
