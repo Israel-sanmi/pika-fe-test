@@ -30,17 +30,18 @@ const HeroScrn = () => {
 
             <div className="flex flex-col md:flex-row font-inter flex-wrap gap-4 mb-12">
               <a
-                href="#trial"
-                className="flex items-center justify-center gap-2 px-6 py-3 rounded-md bg-main text-white font-medium hover:bg-main/90 transition"
+                href="#products"
+                className="flex items-center capitalize justify-center gap-2 px-6 py-3 rounded-md bg-main text-white font-medium hover:bg-main/90 transition"
               >
-                <FaRocket /> Start Free Trial
+                <FaRocket />
+                explore our solutions
               </a>
-              <a
+              {/* <a
                 href="#demo"
                 className="flex items-center justify-center gap-2 px-6 py-3 rounded-md border border-gray-300 text-gray-700 font-medium hover:bg-gray-100 transition"
               >
                 <FaPlay /> Watch Demo
-              </a>
+              </a> */}
             </div>
 
             <div className="flex flex-col md:flex-row font-inter flex-wrap gap-12">

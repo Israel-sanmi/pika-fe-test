@@ -34,9 +34,9 @@ const FinalCTA: React.FC = () => {
               className="inline-flex text-sm font-inter items-center gap-2 px-4 py-3 rounded-sm bg-white text-orange-600 font-semibold shadow-lg hover:scale-105 transition"
             >
               <FaRocket className="w-5 h-5" />
-              Start Your Free Trial Today
+              Join us today
             </a>
-            <div className="flex font-inter flex-wrap justify-center gap-4">
+            {/* <div className="flex font-inter flex-wrap justify-center gap-4">
               <a
                 href="#demo"
                 className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-white/10 border border-white/20 text-white hover:bg-white/20 transition"
@@ -51,15 +51,15 @@ const FinalCTA: React.FC = () => {
                 <PiTrayArrowDownFill className="w-5 h-5" />
                 Download Case Study
               </a>
-            </div>
+            </div> */}
           </div>
 
-          <div className="flex justify-center mt-8">
+          {/* <div className="flex justify-center mt-8">
             <div className="inline-flex items-center gap-3 px-6 py-3 rounded-lg bg-white/10 border border-white/20 backdrop-blur-md">
               <IoShieldCheckmarkSharp className="w-5 h-5 text-green-400" />
               <span className="font-medium font-poppins text-sm">30-day money-back guarantee</span>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
 

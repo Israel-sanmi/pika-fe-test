@@ -36,7 +36,7 @@ export default function ProductNodes() {
     },
     {
       product: "insights",
-      label: "Pika Insights",
+      label: "Pika Address",
       icon: "📊",
       pos: "top-1/2 left-[-16px] -translate-y-1/2",
     },

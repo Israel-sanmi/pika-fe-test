@@ -1,5 +1,8 @@
 "use client";
 import React from "react";
+import googleBtn from "@/public/images/google.png";
+import appleBtn from "@/public/images/apple.png";
+import Image from "next/image";
 
 const products = [
   {
@@ -98,17 +101,16 @@ const ProductsShowcase: React.FC = () => {
   return (
     <section className="products-showcase py-24 bg-gray-50" id="products">
       <div className="container mx-auto px-6">
-        
         <div className="section-header text-center mb-16 max-w-3xl mx-auto">
           <h2 className="section-title text-3xl font-poppins md:text-4xl font-bold text-gray-900 mb-4">
             Six Powerful Products. One Intelligent Ecosystem.
           </h2>
           <p className="section-subtitle text-lg font-inter text-gray-600">
-            Each product is designed to solve specific logistics challenges while working seamlessly together
+            Each product is designed to solve specific logistics challenges
+            while working seamlessly together
           </p>
         </div>
 
-        
         <div className="products-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
           {products.map((p) => (
             <div
@@ -116,24 +118,26 @@ const ProductsShowcase: React.FC = () => {
               className="product-card relative bg-white border-2 border-gray-200 rounded-xl p-8 shadow-lg transition-all duration-300 overflow-hidden hover:-translate-y-2 hover:shadow-2xl hover:border-main"
               data-product={p.product}
             >
-              
               <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-main to-main-dark scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></div>
 
-              
               <div className="product-header flex items-start gap-4 mb-6">
                 <div className="product-icon text-4xl">{p.icon}</div>
                 <div className="product-title">
-                  <h3 className="text-xl font-semibold text-gray-900 font-poppins">{p.title}</h3>
-                  <p className="text-sm text-main font-medium font-inter">{p.subtitle}</p>
+                  <h3 className="text-xl font-semibold text-gray-900 font-poppins">
+                    {p.title}
+                  </h3>
+                  <p className="text-sm text-main font-medium font-inter">
+                    {p.subtitle}
+                  </p>
                 </div>
               </div>
 
-              
               <div className="product-description mb-4">
-                <p className="text-gray-600 font-inter text-sm leading-relaxed">{p.description}</p>
+                <p className="text-gray-600 font-inter text-sm leading-relaxed">
+                  {p.description}
+                </p>
               </div>
 
-              
               <div className="product-features mb-4">
                 <ul className="grid grid-cols-2 gap-2 text-sm text-gray-600">
                   {p.features.map((f, i) => (
@@ -144,7 +148,6 @@ const ProductsShowcase: React.FC = () => {
                 </ul>
               </div>
 
-              
               <div className="product-targets flex flex-wrap gap-2 mb-4">
                 {p.targets.map((t, i) => (
                   <span
@@ -156,20 +159,48 @@ const ProductsShowcase: React.FC = () => {
                 ))}
               </div>
 
-              
-              <div className="product-cta flex gap-4 items-center">
-                <a href="#trial" className="btn btn-outline px-2 py-1 font-inter border border-main text-main rounded-sm text-sm hover:bg-main hover:text-white transition">
-                  Try Free
-                </a>
-                <a href="#demo" className="btn btn-link text-sm text-main underline">
+              <div className="w-full ">
+                {p.product === "business" ? (
+                  <a
+                    href="#trial"
+                    className="btn btn-outline p-2 font-poppins border border-main text-main rounded-sm text-sm hover:bg-main hover:text-white transition"
+                  >
+                    Explore
+                  </a>
+                ) : p.product === "routely" || p.product === "box2door" ? (
+                  <div className="flex gap-4 items-center">
+                    <Image
+                      src={googleBtn}
+                      width={100}
+                      height={100}
+                      alt="google-play-btn"
+                      className="cursor-pointer shadow-sm"
+                    />
+                    <Image
+                      src={appleBtn}
+                      width={100}
+                      height={100}
+                      alt="google-play-btn"
+                      className="cursor-pointer shadow-sm"
+                    />
+                  </div>
+                ) : (
+                  <a
+                    href="#trial"
+                    className="btn cursor-not-allowed btn-outline w-full p-2 font-poppins rounded-sm text-sm text-main bg-white border border-main transition"
+                  >
+                    Coming Soon
+                  </a>
+                )}
+                {/* <a href="#demo" className="btn btn-link text-sm text-main underline">
                   Learn More
-                </a>
+                </a> */}
               </div>
             </div>
           ))}
         </div>
 
-        <div className="section-cta text-center">
+        {/* <div className="section-cta text-center">
           <a
             href="#trial"
             className="btn btn-main-lg font-poppins bg-main text-white px-6 py-3 rounded-lg font-semibold hover:opacity-90 transition"
@@ -179,11 +210,10 @@ const ProductsShowcase: React.FC = () => {
           <p className="cta-note font-inter text-sm text-gray-500 mt-4">
             30-day free trial • No credit card required • Full access
           </p>
-        </div>
+        </div> */}
       </div>
     </section>
   );
 };
 
 export default ProductsShowcase;
-

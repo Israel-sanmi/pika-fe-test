@@ -435,8 +435,8 @@ export default function Home() {
       <AISpotlight />
       <ResultsSection />
       <IntegrationSection />
-      <PricingSection />
-      <TrustSection />
+      {/* <PricingSection /> */}
+      {/* <TrustSection /> */}
       <FinalCTA />
       <Footer />
     </div>

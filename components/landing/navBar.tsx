@@ -36,7 +36,7 @@ const NavBar = () => {
             "Solutions",
             "Products",
             "Results",
-            "Pricing",
+            // "Pricing",
             "Contact",
           ].map((item) => (
             <a
@@ -50,17 +50,17 @@ const NavBar = () => {
           ))}
         </div>
         <div className="hidden lg:flex items-center gap-4">
-          <a
+          {/* <a
             href="#demo"
             className="px-4 py-2 text-sm font-medium text-gray-700 border border-gray-300 rounded-md hover:bg-gray-100 transition"
           >
             Watch Demo
-          </a>
+          </a> */}
           <a
             href="#trial"
             className="px-4 py-2 text-sm font-medium text-white bg-main rounded-md hover:bg-main/90 transition"
           >
-            Start Free Trial
+            Log In
           </a>
         </div>
         <div
