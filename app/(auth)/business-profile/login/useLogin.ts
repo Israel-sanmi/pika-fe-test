@@ -12,10 +12,12 @@ export const useLogin = () => {
   const { updateUser } = useUser();
   const loginMutation = useMutation({
     mutationKey: ["login"],
+    
     mutationFn: async (payload: { email: string; password: string }) => {
       const res = await axios.post(`${apis.auth.login}`, payload);
       return res.data;
     },
+
     onSuccess: (data) => {
       console.log("Signin successful:", data);
       toast.success(`Welcome: ${data.data.user.fullName}`);
@@ -62,7 +64,7 @@ export const useLogin = () => {
     onSuccess: (data) => {
       console.log("Password Reset:", data);
       toast.success(`Password Reset successful: ${data.message}`);
-      router.push("/login/forgot-password/password-reset");
+      router.push("/business-profile/login/forgot-password/password-reset");
     },
     onError: (error: any) => {
       console.error(
@@ -90,7 +92,7 @@ export const useLogin = () => {
     },
     onSuccess: (data) => {
       toast.success(`Password changed successfully 🎉`);
-      router.replace("/login");
+      router.replace("/business-profile/login");
       Cookies.remove("email");
     },
     onError: (error: any) => {

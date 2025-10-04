@@ -17,7 +17,7 @@ const VerificationSuccess = () => {
           Account Verified!
         </h1>
         <button
-          onClick={() => router.push("/login")}
+          onClick={() => router.push("/business-profile/login")}
           className="bg-main w-full text-white py-2  cursor-pointer font-inter font-semibold mt-5 text-sm rounded-2xl"
         >
           Proceed to login

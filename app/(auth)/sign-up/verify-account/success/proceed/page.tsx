@@ -27,7 +27,7 @@ const ProceedScrn = () => {
             Create Business Profile
           </button>
           <button
-            onClick={() => router.push("/login")}
+            onClick={() => router.push("/business-profile/login")}
             className="bg-white border border-main w-full text-main py-2  cursor-pointer font-inter font-semibold mt-5 text-sm rounded-2xl"
           >
             Log in

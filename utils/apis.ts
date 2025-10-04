@@ -24,4 +24,8 @@ export const apis = {
   general: {
     dashboard: `${baseUrl}dashboard`,
   },
+  delivery: {
+    trip: `${baseUrl}trip/details`,
+    create: `${baseUrl}delivery/create`,
+  },
 };

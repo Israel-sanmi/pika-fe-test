@@ -56,7 +56,7 @@ const SideNav = ({ children }: React.PropsWithChildren) => {
   const handleLogout = () => {
     Cookies.remove("accessToken");
     Cookies.remove("refreshToken");
-    router.push("/login");
+    router.push("/business-profile/login");
     clearUser();
   };
 

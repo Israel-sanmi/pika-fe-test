@@ -147,7 +147,7 @@ const Login = () => {
                 )}
               />
               <p
-                onClick={() => router.push("/login/forgot-password")}
+                onClick={() => router.push("/business-profile/login/forgot-password")}
                 className="text-xs hover:text-main transition-colors ease-in-out font-inter  text-right cursor-pointer font-bold text-[#474445]"
               >
                 Forgot Password?

@@ -229,7 +229,7 @@ const BusinessForm = () => {
             Already have an account?{" "}
             <span
               className="text-main cursor-pointer"
-              onClick={() => router.push("/login")}
+              onClick={() => router.push("/business-profile/login")}
             >
               Log In
             </span>{" "}

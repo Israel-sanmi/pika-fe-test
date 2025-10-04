@@ -27,7 +27,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html className="" lang="en">
       <body className={`${poppins.variable} ${inter.variable} antialiased`}>
         <ReactQueryProvider>{children}</ReactQueryProvider>
         <Toaster />
